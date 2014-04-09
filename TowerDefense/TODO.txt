@@ -1,0 +1,8 @@
+TODO:
+Design elegant event system //Needed?
+
+
+DONE:
+Objects such as towers should be inherited from a drawable game component
+main should be refactored into a game class
+Finish main tower mechanics and tower placement
