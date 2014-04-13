@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="48" height="32" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="poke1" tilewidth="32" tileheight="32">
+  <image source="poke1.png" trans="00c6c5" width="256" height="8192"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="48" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztlkEOgjAQRRvlOIQVsJLeQV2p97+HLpjk+x0K01AkYUxehNBO38AMtAshdAcgfrgALWCJI/O3cBZPWbMH4kg3jqlhXv9H9wZox39tXE3wc5A82X9t35qOsS4090GhITgHyaOUv+TAvtq5RqpmZF7JupEc5vynkF7AHAbKeYue1fy1umbvCNfEd6B46G99Z1mIcKz5pxB/6YupcSX9c9fBPk65S1z5la6nVF/y2Ln7jpRw5x5b2r+SJ3/XUvFL1BD74/1cmgvXSSp+SX+uBf42Wfxx37SF+9R16/o5+zsr1yqEm4F79RvjvCCeNm+N3J6VjZfigTwy57n/cfxP4Rvcc+/dPxf3d3/3d3/3d3/H2Qtvbthy+w==
+  </data>
+ </layer>
+ <layer name="Tile Layer 4" width="48" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztlbtOAkEUhqdgNkFAlLuAV+73i4n4emqlVmqFPAsdoSIk2kEHT+K/Zoo17mR3JksGkvMlXzKZZLLfNucwRhAEQRCEjDOLsTwsuFhU0BTX4tsX1n/LPs3tYX/Vh1mh6f6Si00PY/AYxuGVwf6G6GlZf89eOPvrBvt1cfafUP8vs5D7/Vxyr0IYjUcwAqPW4fWfojEBkzAF0zAT8PzZZb9zz9n76lzM2cuA5o/duJB0LgPot+fsjZit9s6qiB1QC3D+TCWdsnsVnLO1DTuwC3uwfwDzZ4DGIbyFX5yxb3iH8wjeu/Q/cD0fFX3i6v+ywpu1x7tnrueLoq8a/Ru82Xq8e+N6viv6odHvhzHX81PRyY76CYIgTPEDDlNfBQ==
+  </data>
+ </layer>
+ <layer name="Obstructables" width="48" height="32">
+  <data encoding="base64" compression="zlib">
+   eJzt1rtOAkEYhuFJhuxVeGlABVbgfSGVWqEVBwsFCw4WIgeFXaDAQ4FAydtQbMVKMvyZ8H/Jk0y3bzabyRrjZtXAmBrqaOAxcPQgR3ui9xlNtPAi0F+yxlyjbOPnJGvT20EXPbwK9N/Qeos7Gz8n2Ru9fbxjgKFAf4XWezzY+DnJPumdYIoQkWff/wXSyCAr3HLscsjjUjrkyGm/7LT/8PZ3hAv5E/Tv35FLLvsLKDp25bBfp9Od3wYp/ukxwhgfKemi/y2kN8IMcyw861/S+4Vv/ODXs/4VvX9YY4OtZ/06nU6n00luB9RvWoA=
+  </data>
+ </layer>
+ <layer name="Obstructables2" width="48" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztlctKw0AUQK+OcfAJ2iq0PkBdaVfa32i7kuLCSn9PXakr9ec8gSySS2JHGZ2I98BZDEOYMxOS8SLi5e/ipdo/ciLjACcuVXEV3X9N1z0+4GPRqMc5U1d9PtU7rOt/wmd8KRr1OGeqzr9N/a/4hu9Fox7n1PWn2INe95auWYB3X+zX+41FzHPT77HMT/cv2kPIHlP0163tG/zsWT3/2/2xKfcvZSLL6HAFM1zN4qwTcld9x/L3vUbrOm7gJm7hdqT+GJzgKZ41zO/Quosd7OIe7reo/xwvcNAw36O1jwd4iEd43KL+S7zCYYK1Q+6qsvMF/5GbwPvOMAzDMAzDMAzjv/EBaTssRA==
+  </data>
+ </layer>
+ <objectgroup name="Collision" width="48" height="32">
+  <object x="0" y="320" width="736" height="32"/>
+  <object x="704" y="192" width="32" height="128"/>
+  <object x="128" y="32" width="352" height="160"/>
+  <object x="544" y="352" width="96" height="96"/>
+  <object x="640" y="448" width="224" height="32"/>
+  <object x="0" y="448" width="416" height="32"/>
+  <object x="640" y="480" width="224" height="224"/>
+  <object x="0" y="480" width="416" height="224"/>
+  <object x="0" y="800" width="864" height="128"/>
+  <object x="416" y="640" width="64" height="64"/>
+  <object x="576" y="640" width="64" height="64"/>
+  <object x="832" y="160" width="32" height="128"/>
+  <object x="832" y="416" width="192" height="32"/>
+  <object x="1024" y="384" width="288" height="32"/>
+  <object x="1280" y="416" width="32" height="192"/>
+  <object x="1152" y="576" width="128" height="32"/>
+  <object x="1152" y="608" width="32" height="96"/>
+  <object x="1184" y="640" width="64" height="32"/>
+  <object x="1312" y="640" width="96" height="32"/>
+  <object x="1376" y="672" width="32" height="32"/>
+  <object x="1376" y="288" width="32" height="352"/>
+  <object x="832" y="288" width="544" height="32"/>
+  <object x="832" y="384" width="128" height="32"/>
+  <object x="704" y="32" width="160" height="96"/>
+  <object x="704" y="128" width="32" height="64"/>
+  <object x="832" y="128" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup name="Start" width="48" height="32">
+  <object x="32" y="384" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup name="End" width="48" height="32">
+  <object x="768" y="128" width="32" height="32"/>
+ </objectgroup>
+</map>
