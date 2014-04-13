@@ -12,6 +12,7 @@ Game::Game()
 	window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Tower Defense!");
 #endif
 	window->setFramerateLimit(60);
+
 	LoadContent();
 }
 

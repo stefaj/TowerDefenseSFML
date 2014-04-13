@@ -91,35 +91,38 @@ vector<TileNode> AStar::Search(TileNode &start, TileNode &end)
         vector<TileNode*> neighbors = GetNeighbours(*currentNode);
 
 
-        for(int i = 0; i < neighbors.size(); i++ )
-        {
-            TileNode *neighbor = neighbors.at(i);
+		for (int i = 0; i < neighbors.size(); i++)
+		{
+			TileNode *neighbor = neighbors.at(i);
 
-            //is neighbor in closedList
-            bool neighbor_in_closedList = AStar::FindGraphNode(closedList,*neighbor);
+			//is neighbor in closedList
+			bool neighbor_in_closedList = AStar::FindGraphNode(closedList, *neighbor);
 
-            //skip already-checked nodes and walls
-            if(neighbor_in_closedList || neighbor->type == TileNode::WALL)
-                continue;
+			//skip already-checked nodes and walls
+			if (neighbor_in_closedList || neighbor->type == TileNode::WALL)
+				continue;
 
-            int g = currentNode->g+1;
+			int g = currentNode->g + 1;
 
-            bool best_g = false;
-            if(!FindGraphNode(openList,*neighbor))
-            {
-                best_g = true;
-                neighbor->h = EuclidianHeuristic(*neighbor,end);
-                openList.push_back(neighbor);
+			bool best_g = false;
+			if (!FindGraphNode(openList, *neighbor))
+			{
+				best_g = true;
+				neighbor->h = EuclidianHeuristic(*neighbor, end);
+				openList.push_back(neighbor);
 
-            }
-            else if (g < neighbor->g)
-            {
-                best_g = true;
+			}
+			else if (g < neighbor->g)
+			{
+				best_g = true;
 
-            }
+			}
+			if (best_g)
+			{
 
-            neighbor->parent = currentNode;
-            neighbor->g = g;
+				neighbor->parent = currentNode;
+				neighbor->g = g;
+			}
 
 
 

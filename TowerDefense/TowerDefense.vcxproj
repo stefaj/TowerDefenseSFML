@@ -172,6 +172,7 @@
     <ClCompile Include="astar.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="DrawableGameComponent.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyFab.cpp" />
     <ClCompile Include="Player.cpp" />

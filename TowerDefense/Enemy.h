@@ -4,6 +4,7 @@
 #include "HealthBar.h"
 #include "Path.h"
 #include <vector>
+#include "Signalling\Signal.h"
 
 using namespace sf;
 using namespace std;
@@ -31,7 +32,10 @@ namespace Game_Entities
         const float GetHealth();
         const float GetMaxHealth();
 		const int GetBounty();
+		void SetMaxHealth(float h);
 		void SetPosition(Vector2f pos);
+
+		Gallant::Signal1<Enemy*> on_path_completed;
 
     private:
         Texture tex;

@@ -22,16 +22,16 @@ void HUD::LoadContent()
 		// error...
 	}
 	t1_sprite.setTexture(t1_tex);
-	t1_sprite.setPosition(128, 720 - 128 + 64 + 1);
+	t1_sprite.setPosition(128, WINDOW_HEIGHT - 128 + 64 + 1);
 	t1_sprite.setOrigin(t1_tex.getSize().x / 2, t1_tex.getSize().y / 2);
 
-	gridRect = sf::RectangleShape(sf::Vector2f(GRID_WIDTH - 3, GRID_WIDTH - 3));
+	gridRect = sf::RectangleShape(sf::Vector2f(TOWER_GRID_WIDTH - 3, TOWER_GRID_WIDTH - 3));
 	gridRect.setFillColor(sf::Color(0, 0, 0, 25));
 	gridRect.setOutlineThickness(1);
 	gridRect.setOutlineColor(sf::Color(255, 255, 255, 50));
 
-	bottomBar = sf::RectangleShape(sf::Vector2f(1280, 128));
-	bottomBar.setPosition(0, 720 - 128);
+	bottomBar = sf::RectangleShape(sf::Vector2f(WINDOW_WIDTH, 128));
+	bottomBar.setPosition(0, WINDOW_HEIGHT - 128);
 	bottomBar.setFillColor(sf::Color(0, 0, 0, 100));
 	bottomBar.setOutlineThickness(4);
 	bottomBar.setOutlineColor(sf::Color(255, 255, 255, 100));
@@ -56,7 +56,14 @@ void HUD::LoadContent()
 	goldLabel->SetText(scoreP2);
 	goldLabel->SetPosition(Vector2f(1050, 74));
 
+	
+	std::ostringstream StrP3;
+	StrP3 << "Lives " << player1->GetLives();
+	std::string scoreP3(StrP3.str());
 
+	livesLabel = new UI::Label();
+	livesLabel->SetText(scoreP3);
+	livesLabel->SetPosition(Vector2f(1050, 138));
 	
 }
 
@@ -74,6 +81,17 @@ HUD::HUD(World::Map *m_, Player *pl)
 
 void HUD::draw(sf::RenderWindow *rw)
 {
+	sf::View prevView = rw->getView();
+	sf::FloatRect viewPort = prevView.getViewport();
+	sf::Vector2f size = prevView.getSize();
+	sf::Vector2f center = prevView.getCenter();
+	float rotation = prevView.getRotation();
+	float left = center.x - size.x / 2;
+	float top = center.y - size.y / 2;
+
+	bottomBar.setPosition(left, top + size.y - 128);
+	t1_sprite.setPosition(left + 128, top + size.y - 128 + 64 + 1);
+
 	rw->draw(bottomBar);
 	rw->draw(t1_sprite);
 
@@ -90,21 +108,22 @@ void HUD::draw(sf::RenderWindow *rw)
 
 	waveLabel->Draw(rw);
 	goldLabel->Draw(rw);
+	livesLabel->Draw(rw);
 }
 
 void HUD::update(sf::RenderWindow *rw)
 {	
 	input.UpdateFirst(rw);
-	sf::Vector2i mouseVec = sf::Mouse::getPosition(*rw);
-	sf::Vector2f mouseVecf = sf::Vector2f(mouseVec.x, mouseVec.y);
-	mouse_x = mouseVec.x;
-	mouse_y = mouseVec.y;
+	//sf::Vector2i mouseVec = sf::Mouse::getPosition(*rw);
+	sf::Vector2f mouseVecf = input.GetMousePosWorld();
+	mouse_x = mouseVecf.x;
+	mouse_y = mouseVecf.y;
 
 	//snapped coordinates
 	int x = (int)(mouse_x / 32); x *= 32;
 	int y = (int)(mouse_y / 32); y *= 32;
 	
-	sf::Rect<float> mouseRect = sf::Rect<float>(mouse_x, mouse_y, 5, 5);
+	sf::Rect<float> mouseRect = sf::Rect<float>(mouse_x-1, mouse_y-1, 5, 5);
 	
 	if (t1_sprite.getGlobalBounds().intersects(mouseRect))
 	{
@@ -133,6 +152,36 @@ void HUD::update(sf::RenderWindow *rw)
 	{
 		tower_radius_dream_size = selected_Tower->GetRadius();	
 
+	}
+
+	if (current_state == NONE && input.is_left_mb_pressed())
+	{
+		sf::View prevView = rw->getView();
+		sf::Vector2f oldcenter = prevView.getCenter();
+		
+		sf::Vector2f dcenter = mouseVecf - oldcenter;
+		
+		sf::View oldView = rw->getView();
+
+		sf::Vector2f size = oldView.getSize();
+		
+		sf::Vector2f new_center = oldcenter + dcenter / 50.0f;
+
+		float rotation = oldView.getRotation();
+		float left = new_center.x - size.x / 2;
+		float top = new_center.y - size.y / 2;
+
+		if (left < 0)
+			new_center.x = size.x / 2;
+		if (top < 0)
+			new_center.y = size.y / 2;
+		if (left + size.x > TILES_X*GRID_WIDTH)
+			new_center.x = TILES_X*GRID_WIDTH - size.x / 2;
+		if (top + size.y > TILES_Y*GRID_WIDTH)
+			new_center.y = TILES_Y*GRID_WIDTH - size.y / 2;
+		oldView.setCenter(new_center);
+		
+		rw->setView(oldView);
 	}
 
 	if (current_state == NEW_TOWER)
@@ -172,9 +221,10 @@ void HUD::update(sf::RenderWindow *rw)
 
 void HUD::DrawGrid(sf::RenderWindow* window)
 {
-	for (int x = 0; x < 1024; x += GRID_WIDTH)
+
+	for (int x = 0; x < TILES_X*GRID_WIDTH; x += GRID_WIDTH)
 	{
-		for (int y = 0; y < 512; y += GRID_WIDTH)
+		for (int y = 0; y < TILES_Y*GRID_WIDTH; y += GRID_WIDTH)
 		{
 			gridRect.setPosition(sf::Vector2f(x, y));
 			if (x % (GRID_WIDTH * 2) == 0 || y % (GRID_WIDTH * 2) == 0)
@@ -213,4 +263,13 @@ void HUD::OnTowerAdded(Tower* tower)
 			OnCreepKilled(0);
 		}
 	}
+}
+
+void HUD::OnLifeLost(int player_id)
+{
+	player1->RemoveLives(1);
+	std::ostringstream StrP2;
+	StrP2 << "Lives " << player1->GetLives();
+	std::string txt(StrP2.str());
+	livesLabel->SetText(txt);
 }

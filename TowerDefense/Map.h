@@ -26,8 +26,10 @@ namespace World
 
 		
 		//called with boost
+		//event handling
 		void AddNewTower(int vals[]);
 		void AddEnemy(Enemy en);
+		void EnemyCompletedPath(Enemy *en);
 
 		sf::Vector2f GetSize();
 
@@ -43,8 +45,9 @@ namespace World
 		
 		Gallant::Signal1<int> on_creep_spawned;
 		Gallant::Signal1<int> on_new_wave;
-		Gallant::Signal1<int> on_creep_killed;
-		Gallant::Signal1<Tower*> on_tower_added;
+		Gallant::Signal1<int> on_creep_killed; //
+		Gallant::Signal1<Tower*> on_tower_added; //Parameter gives new tower
+		Gallant::Signal1<int> on_life_lost; //Parameter gives player id
 
 	private:
 		void update(float elapsed_seconds);

@@ -34,11 +34,26 @@ void Label::SetText(sf::String s)
 
 void Label::SetPosition(Vector2f pos)
 {
-	text.setPosition(pos);
+	//text.setPosition(pos);
+	position = pos;
 }
 
 void Label::Draw(sf::RenderTarget *rw)
 {
+	sf::View prevView = rw->getView();
+	sf::FloatRect viewPort = prevView.getViewport();
+	sf::Vector2f size = prevView.getSize();
+	sf::Vector2f center = prevView.getCenter();
+	float rotation = prevView.getRotation();
+	float left = center.x - size.x / 2;
+	float top = center.y - size.y / 2;
+
+	//t1_sprite.setPosition(left + 128, top + size.y - 128 + 64 + 1);
+
+
+
+	text.setPosition(sf::Vector2f(left + position.x, top + position.y));
+
 	rw->draw(text);
 }
 

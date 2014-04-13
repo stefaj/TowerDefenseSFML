@@ -28,5 +28,6 @@ namespace UI
 	private:
 		Font font;
 		Text text;
+		sf::Vector2f position;
 	};
 }

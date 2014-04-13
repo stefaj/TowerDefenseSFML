@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Tower.h"
 #include "Signalling\Signal.h"
+#include "Constant.h"
 
 class HUD
 {
@@ -22,6 +23,7 @@ public:
 	void OnNewWave(int);
 	void OnCreepKilled(int bounty);
 	void OnTowerAdded(Tower* tower);
+	void OnLifeLost(int player_id);
 
 private:
 	void LoadContent();
@@ -41,7 +43,7 @@ private:
 	sf::Sprite active_tower_sprite;
 
 	sf::RectangleShape gridRect;
-	const static int GRID_WIDTH = 64;
+	const static int TOWER_GRID_WIDTH = 64;
 	HUD_STATE current_state;
 	World::Map *map;
 
@@ -52,4 +54,5 @@ private:
 	//UI Components
 	UI::Label *waveLabel;
 	UI::Label *goldLabel;
+	UI::Label *livesLabel;
 };

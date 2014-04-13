@@ -45,7 +45,11 @@ void Enemy::UpdatePathing(float seconds)
 
 	}
 	else
+	{
+		//We arrived at our destination
+		on_path_completed(this);
 		return;
+	}
 	while (stage_pos > lengths[stage_index])
 	{
 		stage_pos -= lengths[stage_index];
@@ -145,4 +149,10 @@ void Enemy::SetPosition(Vector2f pos)
 const int Enemy::GetBounty()
 {
 	return bounty;
+}
+
+void Enemy::SetMaxHealth(float h)
+{
+	maxHealth = h;
+	health = h;
 }

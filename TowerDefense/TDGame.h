@@ -23,6 +23,8 @@ private:
 
 	Player *player1;
 
+	sf::View view;
+
 	
 
 };

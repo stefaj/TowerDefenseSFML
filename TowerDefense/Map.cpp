@@ -34,14 +34,14 @@ Map::Map(sf::RenderWindow *rw) : GameScreen(rw)
 	GeneratePathing(pathingArr);
 	AStar starretjie = AStar(TILES_X, TILES_Y, &pathingArr);
 
-	AddEnemy(Enemy(0, 0));
+//	AddEnemy(Enemy(0, 0));
 
 }
 
 void Map::LoadContent()
 {
 	m_loader = new tmx::MapLoader("maps/");
-	m_loader->Load("map1.tmx");
+	m_loader->Load("map3.tmx");
 	m_loader->UpdateQuadTree(sf::FloatRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT));
 
 	gridRect = sf::RectangleShape(sf::Vector2f(GRID_WIDTH - 3, GRID_WIDTH - 3));
@@ -322,10 +322,8 @@ void Map::GeneratePathing(TileNode *pathingArr)
 
 Tower* Map::GetTower(sf::Vector2f point)
 {
-	sf::Vector2i mouseVeci = sf::Mouse::getPosition(*render_window);
-	sf::Vector2f mouseVec = sf::Vector2f(mouseVeci.x, mouseVeci.y);
-	sf::Vector2f mouseSize = sf::Vector2f(8, 8);
-	sf::FloatRect mouseRec = sf::FloatRect(mouseVec, mouseSize);
+	sf::Vector2f mouseSize = sf::Vector2f(5, 5);
+	sf::FloatRect mouseRec = sf::FloatRect(point, mouseSize);
 
 	for (int i = 0; i < towers.size(); i++)
 	{
@@ -449,6 +447,8 @@ void Map::AddEnemy(Enemy en)
 	enemyPath.insert(enemyPath.begin(), startNode);
 	new_en->UpdatePath(enemyPath);
 
+	new_en->on_path_completed.Connect(this, &Map::EnemyCompletedPath);
+
 	AddComponent(new_en);
 	enemies.push_back(new_en);	
 
@@ -476,7 +476,9 @@ void Map::WaveSpawnUpdate(float elapsed_seconds)
 	else if (current_creep_time > time_between_creeps)
 	{
 		current_creep_time = 0;
-		AddEnemy(Game_Entities::Enemy(0, 0));
+		Game_Entities::Enemy en(0, 0);
+		en.SetMaxHealth(100 + 30 * (cur_wave + 1));
+		AddEnemy(en);
 		creeps_spawned_this_wave++;
 		
 		on_creep_spawned(creeps_spawned_this_wave);
@@ -510,4 +512,16 @@ const int Map::GetCurrentCreepNumber()
 const int Map::GetCreepsPerWave()
 {
 	return creeps_per_wave;
+}
+
+void Map::EnemyCompletedPath(Enemy *en)
+{
+	on_creep_killed(0); //Creep dies, get 0 bounty
+	RemoveComponent(en);
+	RemoveEnemyFromList(en);
+
+	en->MarkForDeletion();
+	//delete en;
+
+	on_life_lost(1);
 }

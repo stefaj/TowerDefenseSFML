@@ -9,10 +9,14 @@ public:
 	const bool is_left_mb_released();
 	const bool is_right_mb_clicked();
 	const bool is_right_mb_released();
+	const bool is_left_mb_pressed();
 	void UpdateFirst(sf::RenderWindow *rw);
 	void UpdateLast();
 	const sf::FloatRect GetMouseBoundingBox();
-	const sf::Vector2i GetMousePos();
+	const sf::Vector2i GetMousePosWindow();
+	
+
+	const sf::Vector2f GetMousePosWorld();
 
 private:
 	bool is_leftmb_curpressed = false;
@@ -21,5 +25,6 @@ private:
 	bool is_rightmb_lastpressed = false;
 	sf::FloatRect mouseBoundingBox;
 	sf::Vector2i mousePos;
+	sf::Vector2f mousePosWorld;
 };
 

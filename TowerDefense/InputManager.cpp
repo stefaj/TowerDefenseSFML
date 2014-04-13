@@ -17,6 +17,8 @@ void InputManager::UpdateFirst(sf::RenderWindow *rw)
 	is_rightmb_curpressed = sf::Mouse::isButtonPressed(sf::Mouse::Button::Right);
 	
 	mousePos = sf::Mouse::getPosition(*rw);
+	mousePosWorld = rw->mapPixelToCoords(mousePos);
+	
 	mouseBoundingBox = sf::FloatRect(mousePos.x, mousePos.y, 8, 8);
 }
 
@@ -52,7 +54,17 @@ const sf::FloatRect InputManager::GetMouseBoundingBox()
 	return mouseBoundingBox;
 }
 
-const sf::Vector2i InputManager::GetMousePos()
+const sf::Vector2i InputManager::GetMousePosWindow()
 {
 	return mousePos;
+}
+
+const sf::Vector2f InputManager::GetMousePosWorld()
+{
+	return mousePosWorld;
+}
+
+const bool InputManager::is_left_mb_pressed()
+{
+	return is_leftmb_curpressed;
 }

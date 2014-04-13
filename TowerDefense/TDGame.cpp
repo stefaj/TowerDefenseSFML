@@ -10,7 +10,12 @@ TDGame::TDGame()
 	player1 = new Player(1);
 	player1->AddGold(50);
 	LoadContent();
-	
+
+
+	view = sf::View(sf::FloatRect(0, 0, 1280, 720));
+	//view.zoom(TILES_X * GRID_WIDTH / 1280.0f);
+	//view.rotate(10);
+	window->setView(view);
 }
 
 
@@ -47,4 +52,5 @@ void TDGame::LoadContent()
 	map1.on_new_wave.Connect(hud, &HUD::OnNewWave);
 	map1.on_creep_killed.Connect(hud, &HUD::OnCreepKilled);
 	map1.on_tower_added.Connect(hud, &HUD::OnTowerAdded);
+	map1.on_life_lost.Connect(hud, &HUD::OnLifeLost);
 }
