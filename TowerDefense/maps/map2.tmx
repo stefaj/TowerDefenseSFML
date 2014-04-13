@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="32" height="16" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="outdoor" tilewidth="32" tileheight="32">
+  <image source="outdoor.png" width="256" height="14944"/>
+ </tileset>
+ <tileset firstgid="3737" name="tmw_desert_spacing" tilewidth="32" tileheight="32" spacing="1">
+  <image source="tmw_desert_spacing.png" trans="00c6c6" width="265" height="199"/>
+ </tileset>
+ <tileset firstgid="3785" name="tmw_desert_spacing" tilewidth="32" tileheight="32" spacing="1" margin="1">
+  <image source="tmw_desert_spacing.png" trans="00c6c6" width="265" height="199"/>
+ </tileset>
+ <tileset firstgid="3833" name="outdoor" tilewidth="32" tileheight="32">
+  <image source="outdoor.png" trans="00c6c6" width="256" height="14944"/>
+ </tileset>
+ <layer name="Background" width="32" height="16">
+  <data encoding="base64" compression="zlib">
+   eJzlk9EKwCAIRXvtZX3N/v8vBtvXbDEEueuaDaHBHiQw0+NNc0lpTfMsl9tmMnyRA1nEty1P02+i+mjllHr1Xte2WCI0wPrIVGP26zyCNGGxLLfX52FgceKTfjGn+JEX++kxaM2ZJnoOWv+DvGyWe7ozFs3Q2wemDavHfHiHGrCd0TP6Zu9a/8fmzNJqdA9YL6w/K7elk6e+h9eahxH9/2YnzhGBIA==
+  </data>
+ </layer>
+</map>
