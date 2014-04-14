@@ -15,7 +15,7 @@ namespace UI
 		Component();
 		Component(InputManager *input);
 		virtual void Draw(sf::RenderTarget *rw)=0;
-		void Update(sf::RenderTarget *rw, float elapsed_seconds);
+		void Update(float elapsed_seconds);
 		virtual ~Component();
 		const virtual bool IsSelected()=0;
 		const virtual bool IsSelectable()=0;
@@ -24,7 +24,7 @@ namespace UI
 		virtual bool IsActive()=0;
 		virtual void Activate()=0;
 		virtual void Deactivate()=0;
-		virtual void DoEvents(sf::RenderTarget *rw, float elapsed_seconds) = 0;
+		virtual void DoEvents(float elapsed_seconds) = 0;
 		virtual sf::FloatRect GetBoundingBox()=0;
 		Gallant::Signal1<Component*> On_Click;
 		Gallant::Signal1<Component*> On_MouseHover;

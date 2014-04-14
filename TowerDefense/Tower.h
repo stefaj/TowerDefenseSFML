@@ -16,7 +16,7 @@ namespace Game_Entities
 		explicit Tower(int, int, int);
 		void SetEnemiesPointer(std::vector<Enemy*> *enemy_list);
 		void Draw(sf::RenderTarget *rw);
-		void Update(sf::RenderTarget *rw, float elapsed_seconds);
+		void Update(float elapsed_seconds);
 		const int GetX();
 		const int GetY();
 		const float GetRadius();

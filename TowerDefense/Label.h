@@ -19,7 +19,7 @@ namespace UI
 		bool IsActive();
 		void Activate();
 		void Deactivate();
-		void DoEvents(sf::RenderTarget *rw, float elapsed_seconds);
+		void DoEvents(float elapsed_seconds);
 		sf::FloatRect GetBoundingBox();
 		void SetPosition(Vector2f pos);
 		void SetText(sf::String s);

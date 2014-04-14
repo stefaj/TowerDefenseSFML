@@ -17,7 +17,7 @@ void GameScreen::Update()
 	
 	update(elapsed_seconds);
 	for (int i = 0; i < gameComponents.size(); i++)
-		gameComponents[i]->Update(render_window, elapsed_seconds);
+		gameComponents[i]->Update(elapsed_seconds);
 	
 
 }

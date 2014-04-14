@@ -169,7 +169,10 @@
     <ClCompile Include="..\sfml-tmxloader-master\sfml-tmxloader-master\src\MapObject.cpp" />
     <ClCompile Include="..\sfml-tmxloader-master\sfml-tmxloader-master\src\pugixml\pugixml.cpp" />
     <ClCompile Include="..\sfml-tmxloader-master\sfml-tmxloader-master\src\QuadTreeNode.cpp" />
+    <ClCompile Include="Anim.cpp" />
+    <ClCompile Include="AnimPlayer.cpp" />
     <ClCompile Include="astar.cpp" />
+    <ClCompile Include="CharacterAnim.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DrawableGameComponent.cpp" />
@@ -194,7 +197,10 @@
     <ClCompile Include="Tower.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Anim.h" />
+    <ClInclude Include="AnimPlayer.h" />
     <ClInclude Include="astar.h" />
+    <ClInclude Include="CharacterAnim.h" />
     <ClInclude Include="collision.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="Constant.h" />

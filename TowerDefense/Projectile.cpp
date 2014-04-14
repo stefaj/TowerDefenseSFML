@@ -33,7 +33,7 @@ void Projectile::Draw(sf::RenderTarget *rw)
 	rw->draw(sprite);
 }
 
-void Projectile::Update(sf::RenderTarget *rw, float elapsed_seconds)
+void Projectile::Update(float elapsed_seconds)
 {
 	Vector2f cur_pos = GetPos();
 	cur_pos += velocity * speed * elapsed_seconds;

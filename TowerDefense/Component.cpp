@@ -14,7 +14,7 @@ Component::~Component()
 {
 }
 
-void Component::Update(sf::RenderTarget *rw, float elapsed_seconds)
+void Component::Update(float elapsed_seconds)
 {
 	if (GetBoundingBox().intersects(input->GetMouseBoundingBox()))
 	{
@@ -22,7 +22,7 @@ void Component::Update(sf::RenderTarget *rw, float elapsed_seconds)
 		if (input->is_left_mb_released())
 			On_Click(this);
 	}
-	DoEvents(rw,elapsed_seconds);
+	DoEvents(elapsed_seconds);
 }
 
 void Component::SetProperty(string name, string value)

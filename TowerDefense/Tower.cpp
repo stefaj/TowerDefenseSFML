@@ -41,7 +41,7 @@ double Tower::angle_to_point(double x, double y)
 	return angle;
 }
 
-void Tower::Update(sf::RenderTarget *rw, float elapsed_seconds)
+void Tower::Update(float elapsed_seconds)
 {
 	
 	cool_down += elapsed_seconds;

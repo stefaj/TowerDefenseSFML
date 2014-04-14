@@ -17,7 +17,7 @@ void UIWindow::Update()
 
 	update(elapsed_seconds);
 	for (int i = 0; i < ui_components.size(); i++)
-		ui_components[i]->Update(render_target, elapsed_seconds);
+		ui_components[i]->Update(elapsed_seconds);
 
 
 }

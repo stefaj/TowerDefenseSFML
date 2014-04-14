@@ -6,6 +6,7 @@ using namespace World;
 //Needs fix though
 TileNode t_[TILES_X][TILES_Y];
 
+
 Map::Map(sf::RenderWindow *rw) : GameScreen(rw)
 {
 	LoadContent();
@@ -33,6 +34,8 @@ Map::Map(sf::RenderWindow *rw) : GameScreen(rw)
 	}
 	GeneratePathing(pathingArr);
 	AStar starretjie = AStar(TILES_X, TILES_Y, &pathingArr);
+
+	
 
 //	AddEnemy(Enemy(0, 0));
 
@@ -73,14 +76,13 @@ void Map::draw()
 
 	//DrawPathing();
 	//DrawGrid();
+
 }
 
 void Map::update(float elapsed_seconds)
 {
 	DoProjectileCollision();
 	WaveSpawnUpdate(elapsed_seconds);
-
-
 }
 
 bool Map::DoesCollideWithCollisionLayer(sf::FloatRect rect)

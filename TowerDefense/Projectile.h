@@ -16,7 +16,7 @@ namespace Game_Entities
 		~Projectile();
 
 		void Draw(sf::RenderTarget *rw);
-		void Update(sf::RenderTarget *rw, float elapsed_seconds);
+		void Update(float elapsed_seconds);
 		const Vector2f GetPos();
 		const Vector2f GetVelocity();
 		const FloatRect GetBoundingBox();

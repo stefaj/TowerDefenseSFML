@@ -5,11 +5,15 @@
 #include "Path.h"
 #include <vector>
 #include "Signalling\Signal.h"
+#include "Anim.h"
+#include "AnimPlayer.h"
+#include "CharacterAnim.h"
 
 using namespace sf;
 using namespace std;
 using namespace Pathfinding;
 using namespace States;
+using namespace Animation;
 namespace Game_Entities
 {
     class Enemy : public DrawableGameComponent
@@ -17,7 +21,7 @@ namespace Game_Entities
     public:
         Enemy(int, int);
 		void Draw(sf::RenderTarget *rw);
-		void Update(sf::RenderTarget *rw, float elapsed_seconds);
+		void Update(float elapsed_seconds);
 
         const Vector2f GetPos();
 
@@ -38,8 +42,6 @@ namespace Game_Entities
 		Gallant::Signal1<Enemy*> on_path_completed;
 
     private:
-        Texture tex;
-        Sprite sprite;
         int id;
         int health;
         int maxHealth;
@@ -56,8 +58,19 @@ namespace Game_Entities
         Path path;
         float speed;
 
+		void LoadContent();
+
         //Called in update
         void UpdatePathing(float seconds);
+		void UpdateAnimation(sf::Vector2f direction);
+
+		//Animations
+		CharacterAnim *anim_left;
+		CharacterAnim *anim_right;
+		CharacterAnim *anim_up;
+		CharacterAnim *anim_down;
+		
+		AnimPlayer sprite;
 
     };
 }

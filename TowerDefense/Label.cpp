@@ -92,7 +92,7 @@ void Label::Deactivate()
 
 }
 
-void Label::DoEvents(sf::RenderTarget *rw, float elapsed_seconds)
+void Label::DoEvents(float elapsed_seconds)
 {
 
 }
