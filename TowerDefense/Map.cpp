@@ -9,9 +9,10 @@ TileNode t_[TILES_X][TILES_Y];
 
 Map::Map(sf::RenderWindow *rw) : GameScreen(rw)
 {
-	LoadContent();
-
 	pathingArr = &t_[0][0];
+
+	LoadContent();
+	
 
 	for (auto layer = m_loader->GetLayers().begin(); layer != m_loader->GetLayers().end(); ++layer)
 	{
@@ -61,6 +62,13 @@ void Map::LoadContent()
 	current_creep_time = 0;
 	current_wave_time = 0;
 
+	for (int i = 0; i < TILES_X; i++)
+	{
+		for (int j = 0; j < TILES_Y; j++)
+		{
+			pathingArr[j*TILES_X + i] = TileNode(i, j, nullptr);
+		}
+	}
 }
 
 
@@ -74,7 +82,8 @@ void Map::draw()
 {
 	render_window->draw(*m_loader);
 
-	//DrawPathing();
+	
+	DrawPathing();
 	//DrawGrid();
 
 }
@@ -266,7 +275,19 @@ void Map::DrawPathing()
 
 void Map::UpdateEnemyPathing()
 {
-	GeneratePathing(pathingArr);
+	for (int i = 0; i < towers.size(); i++)
+	{
+		Tower *t = towers.at(i);
+		int x = t->GetX() / 32;
+		int y = t->GetY() / 32;
+
+		pathingArr[TILES_X * y + x].type = 1;
+		pathingArr[TILES_X * (y + 1) + x].type = 1;
+		pathingArr[TILES_X * y + (x + 1)].type = 1;
+		pathingArr[TILES_X * (y + 1) + (x + 1)].type = 1;
+	}
+
+	//GeneratePathing(pathingArr);
 
 	AStar starretjie = AStar(TILES_X, TILES_Y, &pathingArr);
 
@@ -287,25 +308,26 @@ void Map::UpdateEnemyPathing()
 
 void Map::GeneratePathing(TileNode *pathingArr)
 {
-	for (int i = 0; i < TILES_X; i++)
+
+	for (auto layer = m_loader->GetLayers().begin(); layer != m_loader->GetLayers().end(); ++layer)
 	{
-		for (int j = 0; j<TILES_Y; j++)
+		if (layer->name == "Collision")
 		{
-			pathingArr[j*TILES_X + i] = TileNode(i, j, nullptr);
-					
-			int t = 0;
-
-			sf::Vector2f point(i * GRID_WIDTH, j * GRID_WIDTH);
-
-			sf::FloatRect rect = sf::FloatRect(i * GRID_WIDTH, j * GRID_WIDTH, GRID_WIDTH-1, GRID_WIDTH-1);
+			for (auto object = layer->objects.begin(); object != layer->objects.end(); ++object)
+			{
+				sf::FloatRect bb = object->GetAABB();
 			
-			
-			bool collide = DoesCollideWithCollisionLayer(point);
-			
-			if (collide)
-				t = 1;
-			
-			pathingArr[j*TILES_X + i].type = t;
+				for (int x = bb.left; x < bb.left + bb.width; x+=32)
+				{
+					for (int y = bb.top; y < bb.top+bb.height; y+=32)
+					{
+						int i = x / 32;
+						int j = y / 32;
+						pathingArr[j*TILES_X + i].type = TileNode::WALL;
+					}
+				}
+				
+			}
 		}
 	}
 

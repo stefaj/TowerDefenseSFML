@@ -15,7 +15,7 @@
  </layer>
  <layer name="Obstructables" width="48" height="32">
   <data encoding="base64" compression="zlib">
-   eJzt1rtOAkEYhuFJhuxVeGlABVbgfSGVWqEVBwsFCw4WIgeFXaDAQ4FAydtQbMVKMvyZ8H/Jk0y3bzabyRrjZtXAmBrqaOAxcPQgR3ui9xlNtPAi0F+yxlyjbOPnJGvT20EXPbwK9N/Qeos7Gz8n2Ru9fbxjgKFAf4XWezzY+DnJPumdYIoQkWff/wXSyCAr3HLscsjjUjrkyGm/7LT/8PZ3hAv5E/Tv35FLLvsLKDp25bBfp9Od3wYp/ukxwhgfKemi/y2kN8IMcyw861/S+4Vv/ODXs/4VvX9YY4OtZ/06nU6n00luB9RvWoA=
+   eJzt1jkzA2EAh/F3ZjPJl/Bl3Pd9k8SVDQV6VKhQoUKFChUqVK7CVbgKxJ2gcBWu0qNIkWo3Zt/N7sz7n/nN7Oxs5n0ms5OJEHK27hViA5vYwrZX0kGStkPvLvawj4MU9M9pQsxjQUu8NrNDeo9wjBOcWtTfw/m96DPRscgzS1jWEq/N7Izec1wggkuL+vs5fwCDJjpWeGYVa1ritZnd0nuHe0QRs6h/iPOHMWKy479Lgx8BBJP4nNF7Osr9MYxL7v9bCDrCSXzG6D2d4P4kphzab/SeTnN/BrMO7XfSVL/x4r8RMug29Me/I5lk9neiS7Juif12L90nRAYykYVs5CAXeb5U1xkvn8YCFKIIxShBKcpc0F9OYwUqUYVq1KAWdS7or6exAY3wI4AgmtDsgv4WGlvRhhB0hNGODhv7Ix7+0+MK17jx2He2FYvSG8MDHvHksv5nel/wije8u6z/g95PfOEbPy7rV1NTU1NTS+V+AbdNeVs=
   </data>
  </layer>
  <layer name="Obstructables2" width="48" height="32">
@@ -55,6 +55,10 @@
   <object x="960" y="384" width="32" height="32"/>
   <object x="800" y="384" width="32" height="32"/>
   <object x="800" y="288" width="32" height="32"/>
+  <object x="896" y="448" width="224" height="160"/>
+  <object x="1120" y="576" width="32" height="32"/>
+  <object x="1152" y="160" width="96" height="96"/>
+  <object x="1408" y="96" width="96" height="160"/>
  </objectgroup>
  <objectgroup name="Start" width="48" height="32">
   <object x="32" y="384" width="32" height="32"/>
