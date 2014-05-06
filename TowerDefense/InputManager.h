@@ -15,7 +15,7 @@ public:
 	const sf::FloatRect GetMouseBoundingBox();
 	const sf::Vector2i GetMousePosWindow();
 	
-
+	const sf::FloatRect GetMouseBoundingBoxWorld();
 	const sf::Vector2f GetMousePosWorld();
 
 private:
@@ -26,5 +26,6 @@ private:
 	sf::FloatRect mouseBoundingBox;
 	sf::Vector2i mousePos;
 	sf::Vector2f mousePosWorld;
+	sf::FloatRect mouseBoundingBoxWorld;
 };
 

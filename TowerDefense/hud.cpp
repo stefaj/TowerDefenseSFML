@@ -17,13 +17,20 @@ void HUD::LoadContent()
 	bottomBar.setOutlineThickness(4);
 	bottomBar.setOutlineColor(sf::Color(255, 255, 255, 100));
 
-	if (!t1_tex.loadFromFile("sprites/Upgr_1_toughnesstraining.png"))
+	if (!t1_tex.loadFromFile("sprites/CANNON_TOWER_STRUCTURE.png"))
 	{
 		// error...
 	}
 	t1_sprite.setTexture(t1_tex);
 	t1_sprite.setPosition(128, WINDOW_HEIGHT - 128 + 64 + 1);
 	t1_sprite.setOrigin(t1_tex.getSize().x / 2, t1_tex.getSize().y / 2);
+
+
+	if (!tower_box_tex.loadFromFile("sprites/towersbox.png"))
+	{
+		// error...
+	}
+	tower_box.setTexture(tower_box_tex);
 
 	gridRect = sf::RectangleShape(sf::Vector2f(TOWER_GRID_WIDTH - 3, TOWER_GRID_WIDTH - 3));
 	gridRect.setFillColor(sf::Color(0, 0, 0, 25));
@@ -89,10 +96,13 @@ void HUD::draw(sf::RenderWindow *rw)
 	float left = center.x - size.x / 2;
 	float top = center.y - size.y / 2;
 
-	bottomBar.setPosition(left, top + size.y - 128);
-	t1_sprite.setPosition(left + 128, top + size.y - 128 + 64 + 1);
+	//bottomBar.setPosition(left, top + size.y - 128);
+	t1_sprite.setPosition(left + 64, top + size.y - tower_box.getGlobalBounds().height + 72);
 
-	rw->draw(bottomBar);
+	tower_box.setPosition(left, top + size.y - tower_box.getGlobalBounds().height);
+	rw->draw(tower_box);
+
+	//rw->draw(bottomBar);
 	rw->draw(t1_sprite);
 
 	if (current_state==NEW_TOWER)

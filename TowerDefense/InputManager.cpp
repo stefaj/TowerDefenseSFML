@@ -20,6 +20,7 @@ void InputManager::UpdateFirst(sf::RenderWindow *rw)
 	mousePosWorld = rw->mapPixelToCoords(mousePos);
 	
 	mouseBoundingBox = sf::FloatRect(mousePos.x, mousePos.y, 8, 8);
+	mouseBoundingBoxWorld = sf::FloatRect(mousePosWorld.x, mousePosWorld.y, 8, 8);
 }
 
 void InputManager::UpdateLast()
@@ -52,6 +53,10 @@ const bool InputManager::is_right_mb_released()
 const sf::FloatRect InputManager::GetMouseBoundingBox()
 {
 	return mouseBoundingBox;
+}
+const sf::FloatRect InputManager::GetMouseBoundingBoxWorld()
+{
+	return mouseBoundingBoxWorld;
 }
 
 const sf::Vector2i InputManager::GetMousePosWindow()

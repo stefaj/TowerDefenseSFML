@@ -33,7 +33,9 @@ private:
 	float tower_radius_dream_size = 0;
 	sf::CircleShape towerRadiusShape;
 	sf::Texture t1_tex;
+	sf::Texture tower_box_tex;
 	sf::Sprite t1_sprite;
+	sf::Sprite tower_box;
 	int newTowerid = -1;
 
 

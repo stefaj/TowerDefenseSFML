@@ -31,8 +31,13 @@ namespace UI
 		void SetProperty(string name, string value);
 		string GetProperty(string name);
 	private:
-		InputManager *input;
+		
 		unordered_map<string, string> properties;
+		
+	protected:
+		bool hover = false;
+		InputManager *input;
+
 	};
 
 }

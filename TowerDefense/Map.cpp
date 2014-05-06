@@ -83,7 +83,7 @@ void Map::draw()
 	render_window->draw(*m_loader);
 
 	
-	DrawPathing();
+	//DrawPathing();
 	//DrawGrid();
 
 }
@@ -146,7 +146,6 @@ void Map::AddNewTower(int vals[])
 	sf::FloatRect rect = t->GetBoundingBox();
 	
 	
-	
 	//See if there exists a path;
 	x = x / 32;
 	y = y / 32;
@@ -167,11 +166,20 @@ void Map::AddNewTower(int vals[])
 	pathingArr[TILES_X * (y + 1) + x].type = oldPath_bottomleft;
 	pathingArr[TILES_X * y + (x + 1)].type = oldPath_topright;
 	pathingArr[TILES_X * (y + 1) + (x + 1)].type = oldPath_bottomright;
-
-	
+		
 	//See if collision
 	bool collision = DoesCollideWithCollisionLayer(rect);
 
+	for (int i = 0; i < towers.size(); i++)
+	{
+		Tower *ti = towers[i];
+		if (ti->GetBoundingBox().intersects(rect))
+		{
+			collision = true;
+			break;
+		}
+	}
+	
 	if (!collision && path)
 	{
 		t->SetEnemiesPointer(&enemies); 

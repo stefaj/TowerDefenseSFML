@@ -1,6 +1,7 @@
 #pragma once
 #include "Component.h"
 #include <SFML/Graphics.hpp>
+#include "InputManager.h"
 using namespace sf;
 namespace UI
 {
@@ -9,6 +10,7 @@ namespace UI
 	{
 	public:
 		Label();
+		Label(InputManager *inp);
 		~Label();
 
 		void Draw(sf::RenderTarget *rw);
@@ -22,7 +24,10 @@ namespace UI
 		void DoEvents(float elapsed_seconds);
 		sf::FloatRect GetBoundingBox();
 		void SetPosition(Vector2f pos);
+		void SetPosition(float x, float y);
 		void SetText(sf::String s);
+		void SetColor(sf::Color col);
+		void SetCharacterSize(int v);
 
 
 	private:

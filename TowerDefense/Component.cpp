@@ -16,11 +16,17 @@ Component::~Component()
 
 void Component::Update(float elapsed_seconds)
 {
-	if (GetBoundingBox().intersects(input->GetMouseBoundingBox()))
+	
+	if (GetBoundingBox().intersects(input->GetMouseBoundingBoxWorld()))
 	{
 		On_MouseHover(this);
 		if (input->is_left_mb_released())
 			On_Click(this);
+		hover = true;
+	}
+	else
+	{
+		hover = false;
 	}
 	DoEvents(elapsed_seconds);
 }
