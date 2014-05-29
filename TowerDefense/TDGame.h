@@ -26,6 +26,7 @@ private:
 	MainMenuScreen *mainMenu;
 
 	Player *player1;
+	Player *player2;
 
 	sf::View view;
 

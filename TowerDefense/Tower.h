@@ -5,6 +5,7 @@
 #include "Enemy.h"
 #include "PlayerObject.h"
 #include "Signalling\Signal.h";
+#include "ProjectileStruct.h";
 
 using namespace States;
 namespace Game_Entities
@@ -13,7 +14,7 @@ namespace Game_Entities
 	{
 	public:
 		Tower();
-		explicit Tower(int, int, int);
+		explicit Tower(int x, int y, int lvl, int playerID);
 		void SetEnemiesPointer(std::vector<Enemy*> *enemy_list);
 		void Draw(sf::RenderTarget *rw);
 		void Update(float elapsed_seconds);
@@ -25,12 +26,15 @@ namespace Game_Entities
 		const sf::Vector2f GetPosition();
 		const sf::Vector2f GetCenteredPosition();
 		const sf::FloatRect GetBoundingBox();
+		const int GetUpgradeLevel();
 		const int GetGoldCost();
-		Gallant::Signal1< sf::Vector2f* > on_shoot;
+		Gallant::Signal1<Networking::ProjectileStruct> on_shoot;
+		void ChangeParameters(int lvl);
+		static int GetGoldCost(int level);
 	private:
 		sf::Texture *tower_tex;
 		sf::Sprite tower_sprite;
-		int id;
+		int level;
 		float radius;
 		//Attacks every attack_speed seconds
 		float attack_speed;
@@ -38,6 +42,8 @@ namespace Game_Entities
 		float damage;
 		double angle_to_point(double x, double y);
 		std::vector<Enemy*> *enemies;
+
+		int upgrade_level;
 	protected:
 		float gold_cost;
 

@@ -108,7 +108,7 @@ vector<TileNode> AStar::Search(TileNode &start, TileNode &end)
 			if (!FindGraphNode(openList, *neighbor))
 			{
 				best_g = true;
-				neighbor->h = EuclidianHeuristic(*neighbor, end);
+				neighbor->h = ManhattanHeuristic(*neighbor, end);
 				openList.push_back(neighbor);
 
 			}

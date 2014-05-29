@@ -7,8 +7,12 @@
 
 TDGame::TDGame()
 {
-	player1 = new Player(1);
+	player1 = new Player(1,true);
 	player1->AddGold(50);
+
+	player2 = new Player(2,false);
+	player2->AddGold(50);
+
 	LoadContent();
 
 
@@ -66,8 +70,10 @@ void TDGame::Update()
 void TDGame::LoadContent()
 {
 	map1 = World::Map(window);
+	map1.SetPlayers(player1, player2);
+	map1.SetConnection(nullptr);
 
-	hud = new HUD(&map1, player1);
+	hud = new HUD(&map1, player1,player2);
 	Gallant::Signal1< int > updateLabel;
 		
 	hud->on_tower_add.Connect(&map1, &World::Map::AddNewTower);

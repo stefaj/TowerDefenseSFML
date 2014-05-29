@@ -94,7 +94,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\SFML\SFML-2.1\Libs\Debug;C:\SFML\SFML-2.1\extlibs\libs-msvc\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-graphics-d.lib;sfml-audio-d.lib;sfml-window-d.lib;sfml-system-d.lib;%(AdditionalDependencies);..\zlib\lib\zdll.lib</AdditionalDependencies>
+      <AdditionalDependencies>sfml-graphics-d.lib;sfml-audio-d.lib;sfml-window-d.lib;sfml-network-d.lib;sfml-system-d.lib;%(AdditionalDependencies);..\zlib\lib\zdll.lib</AdditionalDependencies>
     </Link>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>
@@ -175,9 +175,9 @@
     <ClCompile Include="CharacterAnim.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="Connection.cpp" />
     <ClCompile Include="DrawableGameComponent.cpp" />
     <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="EnemyFab.cpp" />
     <ClCompile Include="MainMenuScreen.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerObject.cpp" />
@@ -204,16 +204,22 @@
     <ClInclude Include="CharacterAnim.h" />
     <ClInclude Include="collision.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="Connection.h" />
     <ClInclude Include="Constant.h" />
     <ClInclude Include="DrawableGameComponent.h" />
     <ClInclude Include="Enemy.h" />
-    <ClInclude Include="EnemyFab.h" />
+    <ClInclude Include="EnemyStruct.h" />
     <ClInclude Include="MainMenuScreen.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerObject.h" />
+    <ClInclude Include="PlayerSyncStruct.h" />
+    <ClInclude Include="ProjectileStruct.h" />
+    <ClInclude Include="RemoveEnemyStruct.h" />
     <ClInclude Include="Signalling\Delegate.h" />
     <ClInclude Include="Signalling\Signal.h" />
+    <ClInclude Include="TowerStruct.h" />
     <ClInclude Include="UIWindow.h" />
+    <ClInclude Include="Wave.h" />
     <ClInclude Include="WaveFabAllocator.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameScreen.h" />
@@ -228,6 +234,7 @@
     <ClInclude Include="TDGame.h" />
     <ClInclude Include="tile_node.h" />
     <ClInclude Include="Tower.h" />
+    <ClInclude Include="WaveList.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="TODO.txt" />

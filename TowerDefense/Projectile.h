@@ -3,16 +3,17 @@
 
 #include <SFML/Graphics.hpp>
 #include "PlayerObject.h"
+#include "ProjectileStruct.h"
 
 using namespace States;
 using namespace sf;
 namespace Game_Entities 
 {
-	class Projectile : public DrawableGameComponent, PlayerObject
+	class Projectile : public DrawableGameComponent, public PlayerObject
 	{
 	public:
 		Projectile();
-		Projectile(Vector2f position, Vector2f destination, Vector2f dmg);
+		Projectile(Networking::ProjectileStruct ps);
 		~Projectile();
 
 		void Draw(sf::RenderTarget *rw);
@@ -22,13 +23,17 @@ namespace Game_Entities
 		const FloatRect GetBoundingBox();
 		const float GetDamage();
 		const float GetSpeed();
+		const int GetLevel();
 		
+		void ChangeParameters(int lvl);
+
 	private:
 		Texture tex;
 		Sprite sprite;
 		Vector2f velocity;
 		float damage;
 		float speed;
+		int level;
 		const double angle_to_point(double x, double y);
 	};
 

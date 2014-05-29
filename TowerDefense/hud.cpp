@@ -56,7 +56,7 @@ void HUD::LoadContent()
 
 	
 	std::ostringstream StrP2;
-	StrP2 << "Gold " << player1->GetGold();
+	StrP2 << "Gold " << localPlayer->GetGold();
 	std::string scoreP2(StrP2.str());
 
 	goldLabel = new UI::Label();
@@ -65,7 +65,7 @@ void HUD::LoadContent()
 
 	
 	std::ostringstream StrP3;
-	StrP3 << "Lives " << player1->GetLives();
+	StrP3 << "Lives " << localPlayer->GetLives();
 	std::string scoreP3(StrP3.str());
 
 	livesLabel = new UI::Label();
@@ -75,13 +75,13 @@ void HUD::LoadContent()
 }
 
 
-HUD::HUD(World::Map *m_, Player *pl)
+HUD::HUD(World::Map *m_, Player *local, Player *remote)
 {
 	
 	current_state = NONE;
 	map = m_;
-	player1 = pl;
-	players.push_back(player1);
+	localPlayer = local;
+	remotePlayer = remote;
 
 	LoadContent();
 }
@@ -198,15 +198,21 @@ void HUD::update(sf::RenderWindow *rw)
 	{
 		active_tower_sprite.setPosition(x, y);
 		active_tower_sprite.setTexture(t1_tex);
-		int tower_cost = 10;
-		if (input.is_left_mb_released() && player1->GetGold() >= tower_cost)
+		int tower_cost = Networking::TowerStruct::GetGoldCost(1);
+		if (input.is_left_mb_released() && localPlayer->GetGold() >= tower_cost)
 		{
 			int vals[] = { x, y, newTowerid };
-			on_tower_add(vals);
+			Networking::TowerStruct ts;
+			ts.x = x;
+			ts.y = y;
+			ts.type_ = 1;
+			ts.owner_ = localPlayer->GetID();
+
+			on_tower_add(ts);
 			newTowerid = -1;
 			current_state = NONE;
 		}
-		if (player1->GetGold() < tower_cost)
+		if (input.is_left_mb_released() && localPlayer->GetGold() < tower_cost)
 		{
 			//Play insufficient gold sound
 		}
@@ -254,32 +260,26 @@ void HUD::OnNewWave(int n)
 
 }
 
-void HUD::OnCreepKilled(int bounty)
+void HUD::OnCreepKilled(int n)
 {
-	player1->AddGold(bounty);
+	//play sound?
 	std::ostringstream StrP2;
-	StrP2 << "Gold " << player1->GetGold();
+	StrP2 << "Gold " << localPlayer->GetGold();
 	std::string txt(StrP2.str());
 	goldLabel->SetText(txt);
 }
 
 void HUD::OnTowerAdded(Tower* tower)
 {
-	for (int i = 0; i < players.size(); i++)
-	{
-		if (players[i]->GetID() == tower->GetOwnerID())
-		{
-			players[i]->RemoveGold(tower->GetGoldCost());
-			OnCreepKilled(0);
-		}
-	}
+	OnCreepKilled(0); //Update display
 }
 
 void HUD::OnLifeLost(int player_id)
 {
-	player1->RemoveLives(1);
+	
+	//player1->RemoveLives(1);
 	std::ostringstream StrP2;
-	StrP2 << "Lives " << player1->GetLives();
+	StrP2 << "Lives " << localPlayer->GetLives();
 	std::string txt(StrP2.str());
 	livesLabel->SetText(txt);
 }

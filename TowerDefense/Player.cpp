@@ -5,11 +5,12 @@ Player::Player()
 {
 }
 
-Player::Player(int id_)
+Player::Player(int id_, bool isHost)
 {
 	gold = 0;
 	id = id_;
 	lives = 10;
+	host = isHost;
 }
 
 
@@ -56,4 +57,32 @@ void Player::AddLives(int amount)
 void Player::RemoveLives(int amount)
 {
 	lives -= amount;
+}
+
+const bool Player::IsHost()
+{
+	return host;
+}
+
+void Player::AddCreepsKilled(int amount)
+{
+	creeps_killed += amount;
+}
+
+void Player::RemoveCreepsKilled(int amount)
+{
+	creeps_killed -= amount;
+}
+
+void Player::SetGold(int val)
+{
+	gold = val;
+}
+void Player::SetLives(int val)
+{
+	lives = val;
+}
+void Player::SetCreepsKilled(int val)
+{
+	creeps_killed = val;
 }

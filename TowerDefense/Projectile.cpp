@@ -1,5 +1,6 @@
 #include "Projectile.h"
 #include <cmath>
+
 using namespace Game_Entities;
 
 Projectile::Projectile()
@@ -7,25 +8,41 @@ Projectile::Projectile()
 
 }
 
-Projectile::Projectile(Vector2f pos, Vector2f destination, Vector2f dmg) : PlayerObject(1)
+Projectile::Projectile(Networking::ProjectileStruct ps) : PlayerObject(ps.owner_)
 {
-	if (!tex.loadFromFile("sprites/bullet.png"))
-	{
-
-
-	}
-
-	velocity = destination - pos;
+	sf::Vector2f pos = sf::Vector2f(ps.start_x, ps.start_y);
+	sf::Vector2f destination = sf::Vector2f(ps.end_x, ps.end_y);
 	sprite.setPosition(pos);
-	sprite.setTexture(tex);
-	speed = 5.0f;
-
-	damage = sqrtf(dmg.x*dmg.x + dmg.y*dmg.y);
+	velocity = destination - pos;
+	level = ps.towerLevel;
+	ChangeParameters(level);
+	damage = ps.damage;
+	SetOwnerID(ps.owner_);
 }
 
 Projectile::~Projectile()
 {
 
+}
+
+void Projectile::ChangeParameters(int lvl)
+{
+	
+	level = lvl;
+	if (level == 1)
+	{
+		if (!tex.loadFromFile("sprites/bullet.png"))
+		{
+		}
+
+		sprite.setTexture(tex);
+		speed = 5.0f;
+	}
+}
+
+const int  Projectile::GetLevel()
+{
+	return level;
 }
 
 void Projectile::Draw(sf::RenderTarget *rw)

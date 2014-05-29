@@ -1,36 +1,48 @@
 #include "Tower.h"
 #include <cmath>
+#include "TowerStruct.h"
 using namespace Game_Entities;
 
-Tower::Tower(int x, int y, int _id) : PlayerObject(1)
+Tower::Tower(int x, int y, int lvl, int playerId) : PlayerObject(playerId)
 {
 	tower_sprite = sf::Sprite();
+
 	tower_tex = new sf::Texture();
-	if (!tower_tex->loadFromFile("sprites/CANNON_TOWER_STRUCTURE.png"))
-	{
+	lvl = 1;
 
+	ChangeParameters(lvl);
 
-	}
 	tower_sprite.setPosition(x, y);
 
-	tower_sprite.setTexture(*tower_tex);
-	
-
-	this->radius = 128;
-
-	this->id = _id;
-
-	attack_speed = 1.0f;
-	cool_down = 0;
-	damage = 20;
-	gold_cost = 10;
+	SetOwnerID(playerId);
 }
 
 Tower::Tower()
 {
 	radius = 128.0f;
-	id = 0;
 }
+
+void Tower::ChangeParameters(int lvl)
+{
+	level = lvl;
+	if (lvl == 1)
+	{
+		if (!tower_tex->loadFromFile("sprites/CANNON_TOWER_STRUCTURE.png"))
+		{
+		}
+
+		tower_sprite.setTexture(*tower_tex);
+		radius = 128;
+		attack_speed = 1.0f;
+		cool_down = 0;
+		damage = 15;
+		gold_cost = Networking::TowerStruct::GetGoldCost(lvl);
+	}
+
+}
+
+
+
 
 double Tower::angle_to_point(double x, double y)
 {
@@ -62,7 +74,18 @@ void Tower::Update(float elapsed_seconds)
 				enemyPos.y += en->GetBoundingBox().height / 2;
 				Vector2f dmg(damage, 0);
 				sf::Vector2f vals[] = { towerPos, enemyPos, dmg };
-				on_shoot(vals);
+				
+				Networking::ProjectileStruct ps;
+				ps.damage = damage;
+				ps.start_x = towerPos.x;
+				ps.start_y = towerPos.y;
+				ps.end_x = enemyPos.x;
+				ps.end_y = enemyPos.y;
+				ps.towerLevel = level;
+				ps.owner_ = GetOwnerID();
+
+				on_shoot(ps);
+				
 				cool_down = 0;
 				break;
 			}
@@ -131,4 +154,9 @@ void Tower::SetEnemiesPointer(std::vector<Enemy*> *enemy_list)
 const int Tower::GetGoldCost()
 {
 	return gold_cost;
+}
+
+const int Tower::GetUpgradeLevel()
+{
+	return upgrade_level;
 }

@@ -6,6 +6,7 @@ public:
 	explicit PlayerObject(int player_id);
 	~PlayerObject();
 	const int GetOwnerID();
+	void SetOwnerID(int id);
 private:
 	int owner_id;
 };

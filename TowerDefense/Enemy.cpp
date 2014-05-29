@@ -1,20 +1,20 @@
 #include "Enemy.h"
 #include <cmath>
+#include "WaveList.h"
+#include "Wave.h"
 
 using namespace Game_Entities;
-Enemy::Enemy(int x, int y)
+Enemy::Enemy(int x, int y, int uid, int owner_id) : PlayerObject(owner_id)
 {
-	speed = 50.0f;
-	LoadContent();
-
-	health = 100;
-	maxHealth = 100;
-	bounty = 1;
+	level = 1;
+	ChangeType(level);
 
 	velocity.x += 1;
 	healthBar = HealthBar(25,5);
 
-	
+	UID = uid;
+
+	owner_id = 1;
 
 	stage_pos = 0;
 	stage_index = 0;
@@ -22,26 +22,47 @@ Enemy::Enemy(int x, int y)
 	sprite.SetPosition(sf::Vector2f(x, y));
 }
 
-void Enemy::LoadContent()
+void Enemy::ChangeType(int lvl)
 {
+	level = lvl;
+	Wave wave = waves[level];
+	
+	speed = wave.speed;
+	LoadContent(wave.image_path);
+	maxHealth = wave.maxHealth;
+	health = maxHealth;	
+	bounty = wave.bounty;
+
+}
+
+void Enemy::LoadContent(sf::String fileName)
+{
+	sf::Texture tex;
+	
+	int frame_width = 40;
+	int frame_height = 56;
+	if (tex.loadFromFile(fileName))
+	{
+		frame_width = tex.getSize().x / 4;
+		frame_height = tex.getSize().y / 4;
+	}
+
 	anim_up = new Animation::CharacterAnim();
 	anim_down = new Animation::CharacterAnim();
 	anim_left = new Animation::CharacterAnim();
 	anim_right = new Animation::CharacterAnim();
 
-	sf::String fileName = "sprites/Animations/Characters/052-Undead02.png";
-
-	anim_up->SetParameters(40, 56);
-	anim_down->SetParameters(40, 56);
-	anim_left->SetParameters(40, 56);
-	anim_right->SetParameters(40, 56);
+	anim_up->SetParameters(frame_width, frame_height);
+	anim_down->SetParameters(frame_width, frame_height);
+	anim_left->SetParameters(frame_width, frame_height);
+	anim_right->SetParameters(frame_width, frame_height);
 
 	anim_up->LoadTexture(fileName, 3);
 	anim_down->LoadTexture(fileName, 0);
 	anim_left->LoadTexture(fileName, 1);
 	anim_right->LoadTexture(fileName, 2);
 	
-	float anim_speed = 0.3f * (speed/60.0f);
+	float anim_speed = 0.075f * (60.0f/speed);
 
 	anim_up->SetFrameTime(anim_speed);
 	anim_down->SetFrameTime(anim_speed);
@@ -49,9 +70,11 @@ void Enemy::LoadContent()
 	anim_right->SetFrameTime(anim_speed);
 
 	sprite.PlayAnimation(anim_up);
-	sprite.SetScale(32 / 50.0f);
+	if (frame_width >= 40)
+		sprite.SetScale(32 / 50.0f);
 
 }
+
 
 void Enemy::Update(float elapsed_seconds)
 {
@@ -129,32 +152,8 @@ void Enemy::UpdatePath(vector<TileNode> node_path)
 	UpdatePath(p);
 }
 
-
 void Enemy::UpdatePath(Path p)
 {
-	/*bool all_same = true;
-	auto points_other = p.GetPoints();
-	int s_other = points_other.size();
-
-	auto points_this = path.GetPoints();
-	int s_this = points_this.size();
-	if (s_this > s_other)
-	{
-		for (int i = 0; i < s_other; i++)
-		{
-			if (points_other[i].x != points_this[s_this - s_other + i].x
-				|| points_other[i].y != points_this[s_this - s_other + i].y)
-			{
-				all_same = false;
-			}
-		}
-	}
-	if (s_this == 0 || s_other == 0)
-		all_same = false;
-	if (all_same)
-		return;*/
-
-	//stage_pos = 0;
 	stage_index = 0;
 	path = p;
 }
@@ -204,4 +203,9 @@ void Enemy::SetMaxHealth(float h)
 {
 	maxHealth = h;
 	health = h;
+}
+
+const int Enemy::GetUID()
+{
+	return UID;
 }

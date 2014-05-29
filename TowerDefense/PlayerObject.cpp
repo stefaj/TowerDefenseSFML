@@ -21,3 +21,8 @@ const int PlayerObject::GetOwnerID()
 {
 	return owner_id;
 }
+
+void PlayerObject::SetOwnerID(int id)
+{
+	owner_id = id;
+}

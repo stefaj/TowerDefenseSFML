@@ -61,6 +61,12 @@
     <Filter Include="Source Files\Animation">
       <UniqueIdentifier>{77eed74b-3eeb-40f2-9778-52ac91a4add1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Networking">
+      <UniqueIdentifier>{6b2f344f-b31c-4b8a-b493-efab62861b9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Networking">
+      <UniqueIdentifier>{a1b5bac2-a62c-47e6-abf8-0f31f25278aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -135,9 +141,6 @@
     <ClCompile Include="Label.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyFab.cpp">
-      <Filter>Source Files\Game Entities</Filter>
-    </ClCompile>
     <ClCompile Include="WaveFabAllocator.cpp">
       <Filter>Source Files\Game Entities</Filter>
     </ClCompile>
@@ -165,6 +168,9 @@
     <ClCompile Include="MainMenuScreen.cpp">
       <Filter>Source Files\States</Filter>
     </ClCompile>
+    <ClCompile Include="Connection.cpp">
+      <Filter>Source Files\Networking</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="astar.h">
@@ -172,9 +178,6 @@
     </ClInclude>
     <ClInclude Include="tile_node.h">
       <Filter>Header Files\Pathfinding</Filter>
-    </ClInclude>
-    <ClInclude Include="Constant.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="collision.h">
       <Filter>Header Files\Collision</Filter>
@@ -221,9 +224,6 @@
     <ClInclude Include="Label.h">
       <Filter>Header Files\UI</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyFab.h">
-      <Filter>Header Files\Game Entities</Filter>
-    </ClInclude>
     <ClInclude Include="WaveFabAllocator.h">
       <Filter>Header Files\Game Entities</Filter>
     </ClInclude>
@@ -256,6 +256,33 @@
     </ClInclude>
     <ClInclude Include="MainMenuScreen.h">
       <Filter>Header Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="Wave.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WaveList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Connection.h">
+      <Filter>Header Files\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyStruct.h">
+      <Filter>Header Files\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerSyncStruct.h">
+      <Filter>Header Files\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectileStruct.h">
+      <Filter>Header Files\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="RemoveEnemyStruct.h">
+      <Filter>Header Files\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="TowerStruct.h">
+      <Filter>Header Files\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="Constant.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

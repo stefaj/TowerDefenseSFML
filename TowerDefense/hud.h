@@ -7,21 +7,22 @@
 #include "Tower.h"
 #include "Signalling\Signal.h"
 #include "Constant.h"
+#include "TowerStruct.h"
 
 class HUD
 {
 public:
 	HUD();
-	HUD(World::Map *m_, Player *player);
+	HUD(World::Map *m_, Player *local, Player *remote);
 	void draw(sf::RenderWindow *rw);
 	void update(sf::RenderWindow *rw);
 	void DrawGrid(sf::RenderWindow* window);
-	Gallant::Signal1<int*> on_tower_add;
+	Gallant::Signal1<Networking::TowerStruct> on_tower_add;
 	enum HUD_STATE {NONE,NEW_TOWER, TOWER_MENU};
 
 	//Event handlers
 	void OnNewWave(int);
-	void OnCreepKilled(int bounty);
+	void OnCreepKilled(int);
 	void OnTowerAdded(Tower* tower);
 	void OnLifeLost(int player_id);
 
@@ -38,8 +39,6 @@ private:
 	sf::Sprite tower_box;
 	int newTowerid = -1;
 
-
-
 	float mouse_x;
 	float mouse_y;
 	sf::Sprite active_tower_sprite;
@@ -49,9 +48,8 @@ private:
 	HUD_STATE current_state;
 	World::Map *map;
 
-	Player *player1;
-
-	vector<Player*> players;
+	Player *localPlayer;
+	Player *remotePlayer;
 
 	//UI Components
 	UI::Label *waveLabel;

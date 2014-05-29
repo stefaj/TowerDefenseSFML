@@ -11,8 +11,15 @@
 #include "Projectile.h"
 #include "Constant.h"
 #include "Signalling\Signal.h"
+#include "Connection.h"
+#include "Player.h"
 
-
+#include "TowerStruct.h"
+#include "ProjectileStruct.h"
+#include "EnemyStruct.h"
+#include "PlayerSyncStruct.h"
+#include "RemoveEnemyStruct.h"
+using namespace Networking;
 using namespace Game_Entities;
 namespace World
 {
@@ -23,13 +30,16 @@ namespace World
 		explicit Map(sf::RenderWindow *rw);
 		Map();
 		void draw();
+				
+		void SetPlayers(Player *local, Player *remote);
 
-		
 		//called with boost
 		//event handling
-		void AddNewTower(int vals[]);
+		void AddNewTower(TowerStruct ts);
 		void AddEnemy(Enemy en);
 		void EnemyCompletedPath(Enemy *en);
+
+		void SetConnection(Connection *conn);
 
 		sf::Vector2f GetSize();
 
@@ -43,6 +53,7 @@ namespace World
 		//Wave Spawning events
 		//Note that int* is an array
 		
+		//Networking signals
 		Gallant::Signal1<int> on_creep_spawned;
 		Gallant::Signal1<int> on_new_wave;
 		Gallant::Signal1<int> on_creep_killed; //
@@ -54,7 +65,7 @@ namespace World
 		void LoadContent();
 
 		//called with boost
-		void AddProjectile(sf::Vector2f vals[]);
+		void AddProjectile(ProjectileStruct ps);
 
 		tmx::MapLoader *m_loader;
 			
@@ -98,6 +109,22 @@ namespace World
 		float time_between_creeps;
 		float current_creep_time;
 		float current_wave_time;
+		int last_enemy_uid;
 		void WaveSpawnUpdate(float elapsed_seconds);
+
+		//Networking
+		Connection *peerConnection;
+		Player *localPlayer;
+		Player *remotePlayer;
+
+		//Networking slots
+		void OnNewTowerReceived(TowerStruct);
+		void OnNewEnemyReceived(EnemyStruct);
+		void OnNewProjectileReceived(ProjectileStruct);
+		void OnNewPSyncReceived(PlayerSyncStruct);
+		void OnRemoveEnemyReceived(RemoveEnemyStruct);
+		
+		void SendPlayerSync();
+
 	};
 }
