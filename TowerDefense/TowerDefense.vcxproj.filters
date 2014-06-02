@@ -67,6 +67,12 @@
     <Filter Include="Source Files\Networking">
       <UniqueIdentifier>{a1b5bac2-a62c-47e6-abf8-0f31f25278aa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Saving">
+      <UniqueIdentifier>{f1ff98f3-22a1-46bc-959f-b4b01a9481cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Saving">
+      <UniqueIdentifier>{7ba56399-47fa-4080-9a7d-526bf9379eed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -170,6 +176,33 @@
     </ClCompile>
     <ClCompile Include="Connection.cpp">
       <Filter>Source Files\Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="MultiplayerMap.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="SingleplayerMap.cpp">
+      <Filter>Source Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="HighscoreScreen.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="HostScreen.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="LobbyScreen.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="ScreenManager.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverScreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="highscorefile.cpp">
+      <Filter>Source Files\Saving</Filter>
+    </ClCompile>
+    <ClCompile Include="WinnerScreen.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -282,6 +315,39 @@
       <Filter>Header Files\Networking</Filter>
     </ClInclude>
     <ClInclude Include="Constant.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SingleplayerMap.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="MultiplayerMap.h">
+      <Filter>Header Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="HighscoreScreen.h">
+      <Filter>Header Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="LobbyScreen.h">
+      <Filter>Header Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="HostScreen.h">
+      <Filter>Header Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="ScreenManager.h">
+      <Filter>Header Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateEnemyStruct.h">
+      <Filter>Header Files\Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverScreen.h">
+      <Filter>Header Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="highscore.h">
+      <Filter>Header Files\Saving</Filter>
+    </ClInclude>
+    <ClInclude Include="highscorefile.h">
+      <Filter>Header Files\Saving</Filter>
+    </ClInclude>
+    <ClInclude Include="WinnerScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

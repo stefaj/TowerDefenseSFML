@@ -28,7 +28,7 @@ namespace UI
 		void SetText(sf::String s);
 		void SetColor(sf::Color col);
 		void SetCharacterSize(int v);
-
+		const sf::String GetText();
 
 	private:
 		Font font;

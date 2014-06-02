@@ -54,7 +54,7 @@ vector<TileNode> AStar::Search(TileNode &start, TileNode &end)
 
     while(openList.size() > 0)
     {
-        int i_lowf = 0; //Index of best f-score
+        int i_lowf = 0; //Index of lowers f-score
         for(int i =0; i < openList.size(); i++)
         {
 			if (openList.at(i)->f() < openList.at(i_lowf)->f())
@@ -94,6 +94,8 @@ vector<TileNode> AStar::Search(TileNode &start, TileNode &end)
 		for (int i = 0; i < neighbors.size(); i++)
 		{
 			TileNode *neighbor = neighbors.at(i);
+			if (neighbor->x < 0 || neighbor->y < 0 || neighbor->x > grid_nx || neighbor->y > grid_ny)
+				continue;
 
 			//is neighbor in closedList
 			bool neighbor_in_closedList = AStar::FindGraphNode(closedList, *neighbor);

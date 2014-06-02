@@ -14,8 +14,6 @@ Enemy::Enemy(int x, int y, int uid, int owner_id) : PlayerObject(owner_id)
 
 	UID = uid;
 
-	owner_id = 1;
-
 	stage_pos = 0;
 	stage_index = 0;
 
@@ -28,6 +26,7 @@ void Enemy::ChangeType(int lvl)
 	Wave wave = waves[level];
 	
 	speed = wave.speed;
+
 	LoadContent(wave.image_path);
 	maxHealth = wave.maxHealth;
 	health = maxHealth;	
@@ -189,6 +188,11 @@ const float Enemy::GetMaxHealth()
 	return maxHealth;
 }
 
+void Enemy::SetCurrentHealth(float h)
+{
+	health = h;
+}
+
 void Enemy::SetPosition(Vector2f pos)
 {
 	sprite.SetPosition(pos);
@@ -208,4 +212,14 @@ void Enemy::SetMaxHealth(float h)
 const int Enemy::GetUID()
 {
 	return UID;
+}
+
+const int Enemy::GetType()
+{
+	return level; 
+}
+
+void Enemy::SetTint(const sf::Color &col)
+{
+	sprite.SetTint(col);
 }

@@ -26,6 +26,7 @@ namespace UI
 		virtual void Deactivate()=0;
 		virtual void DoEvents(float elapsed_seconds) = 0;
 		virtual sf::FloatRect GetBoundingBox()=0;
+		const bool IsLMBClicked();//poll
 		Gallant::Signal1<Component*> On_Click;
 		Gallant::Signal1<Component*> On_MouseHover;
 		void SetProperty(string name, string value);

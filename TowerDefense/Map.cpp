@@ -5,73 +5,65 @@
 using namespace World;
 //test TILENODE. Created such that the pointer to this does not lose value as t_ goes out of scope
 //Needs fix though
-TileNode t_[TILES_X][TILES_Y];
 
 
-Map::Map(sf::RenderWindow *rw) : GameScreen(rw)
+
+Map::Map(sf::RenderWindow *rw, std::string mapname) : GameScreen(rw)
 {
 	pathingArr = &t_[0][0];
 
 	LoadContent();	
 
-	for (auto layer = m_loader->GetLayers().begin(); layer != m_loader->GetLayers().end(); ++layer)
-	{
-		if (layer->name == "Start")
-		{
-			for (auto object = layer->objects.begin(); object != layer->objects.end(); ++object)
-			{				
-				sf::Vector2f posto = object->GetPosition();
-				startNode = TileNode((int)posto.x/32, (int)posto.y/32, nullptr);
-			}
-		}
-		if (layer->name == "End")
-		{
-			for (auto object = layer->objects.begin(); object != layer->objects.end(); ++object)
-			{
-				sf::Vector2f posto = object->GetPosition();
-				endNode = TileNode((int)posto.x/32, (int)posto.y/32, nullptr);
-			}
-		}
-	}
-	GeneratePathing(pathingArr);
-	AStar starretjie = AStar(TILES_X, TILES_Y, &pathingArr);
-
 	last_enemy_uid = 0;
 
-}
+	pathfinder = new AStar(TILES_X, TILES_Y, &pathingArr);
 
-void Map::LoadContent()
-{
 	m_loader = new tmx::MapLoader("maps/");
-	m_loader->Load("map3.tmx");
+	m_loader->Load(mapname);
 	m_loader->UpdateQuadTree(sf::FloatRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT));
 
-	gridRect = sf::RectangleShape(sf::Vector2f(GRID_WIDTH - 3, GRID_WIDTH - 3));
-	gridRect.setFillColor(sf::Color(0, 0, 0, 25));
-	gridRect.setOutlineThickness(1);
-	gridRect.setOutlineColor(sf::Color(255, 255, 255, 50));
+	peerConnection = NULL;
 
-	cur_wave = 0;
-	total_waves = noWaves;
-	creeps_per_wave = waves[0].amount;;
-	creeps_spawned_this_wave = 0;
-	time_between_waves = 30;
-	time_between_creeps = 1;
-	current_creep_time = 0;
-	current_wave_time = 0;
-
-	for (int i = 0; i < TILES_X; i++)
-	{
-		for (int j = 0; j < TILES_Y; j++)
-		{
-			pathingArr[j*TILES_X + i] = TileNode(i, j, nullptr);
-		}
-	}
 }
+
+
 
 Map::Map(): GameScreen(nullptr)
 {
 
+}
+
+Map::~Map()
+{
+	delete peerConnection;
+	for (int i = 0; i < enemies.size(); i++)
+	{
+		Enemy *e = enemies[i];
+		RemoveComponent(e);
+		RemoveEnemyFromList(e);
+		e->MarkForDeletion();
+		delete e;
+	}
+	for (int i = 0; i < towers.size(); i++)
+	{
+		Tower *t = towers[i];
+		RemoveComponent(t);
+		RemoveTowerFromList(t);
+		t->MarkForDeletion();
+		delete t;
+	}
+	for (int i = 0; i < projectiles.size(); i++)
+	{
+		Projectile *p = projectiles[i];
+		RemoveComponent(p);
+		RemoveProjectileFromList(p);
+		p->MarkForDeletion();
+		delete p;
+	}
+	//delete m_loader;
+//	delete[] t_;
+//	delete pathingArr;
+	delete pathfinder;
 }
 
 
@@ -85,10 +77,12 @@ void Map::draw()
 
 }
 
-void Map::update(float elapsed_seconds)
+
+bool Map::IsWall(sf::Vector2f point)
 {
-	DoProjectileCollision();
-	WaveSpawnUpdate(elapsed_seconds);
+	int x = point.x / GRID_WIDTH;
+	int y = point.y / GRID_WIDTH;
+	return pathingArr[TILES_X*y + x].type == TileNode::WALL;
 }
 
 bool Map::DoesCollideWithCollisionLayer(sf::FloatRect rect)
@@ -156,8 +150,7 @@ void Map::AddNewTower(TowerStruct ts)
 	pathingArr[TILES_X * y + (x + 1)].type = 1;
 	pathingArr[TILES_X * (y + 1) + (x + 1)].type = 1;
 
-	AStar starretjie = AStar(TILES_X, TILES_Y, &pathingArr);
-	vector<TileNode> enemyPath = starretjie.Search(startNode, endNode);
+	vector<TileNode> enemyPath = pathfinder->Search(startNode, endNode);
 	bool path = enemyPath.size() > 0;
 	pathingArr[TILES_X * y + x].type = oldPath_topleft;
 	pathingArr[TILES_X * (y + 1) + x].type = oldPath_bottomleft;
@@ -211,7 +204,7 @@ void Map::AddNewTower(TowerStruct ts)
 		delete t;
 	}
 
-	peerConnection = NULL;
+	
 }
 
 void Map::DrawGrid()
@@ -314,14 +307,14 @@ void Map::UpdateEnemyPathing()
 
 	//GeneratePathing(pathingArr);
 
-	AStar starretjie = AStar(TILES_X, TILES_Y, &pathingArr);
 
 	for (int i = 0; i < enemies.size(); i++)
 	{
 		Enemy *en = enemies.at(i);
 		Vector2f pos = en->GetPos();
 		TileNode enemyPos = TileNode(pos.x / 32, pos.y / 32, nullptr);
-		vector<TileNode> enemyPath = starretjie.Search(enemyPos, endNode);
+
+		vector<TileNode> enemyPath = pathfinder->Search(enemyPos, endNode);
 
 		enemyPath.insert(enemyPath.begin(), enemyPos);
 		en->UpdatePath(enemyPath);
@@ -389,19 +382,21 @@ Tower* Map::GetTower(sf::Vector2f point)
 
 void Map::AddProjectile(ProjectileStruct ps)
 {
-
-	Projectile *p = new Projectile(ps);
-	projectiles.push_back(p);
-
 	if (localPlayer->IsHost())
 	{
-		if (peerConnection)
-		{
-			peerConnection->Send(ps);
-		}
-	}
+		Projectile *p = new Projectile(ps);
+		projectiles.push_back(p);
 
-	AddComponent(p);
+		if (localPlayer->IsHost())
+		{
+			if (peerConnection)
+			{
+				peerConnection->Send(ps);
+			}
+		}
+
+		AddComponent(p);
+	}
 }
 
 void Map::DoProjectileCollision()
@@ -419,21 +414,38 @@ void Map::DoProjectileCollision()
 			{
 				en->ReduceHealth(p->GetDamage());
 
+				UpdateEnemyStruct ues;
+				ues.health = en->GetHealth();
+				ues.UID = en->GetUID();
+				ues.x = en->GetPos().x;
+				ues.y = en->GetPos().y;
+				if (peerConnection)
+					peerConnection->Send(ues);
+
 				//Destroy dead enemy
 				if (en->IsDead())
 				{
 					if (p->GetOwnerID() == localPlayer->GetID())
 					{
 						localPlayer->AddGold(en->GetBounty());
+						localPlayer->AddCreepsKilled(1);
 					}
 					else
 					{
 						remotePlayer->AddGold(en->GetBounty());
+						remotePlayer->AddCreepsKilled(1);
 					}
 
 					on_creep_killed(en->GetBounty());
 					RemoveComponent(en);
 					RemoveEnemyFromList(en);
+
+					RemoveEnemyStruct res;
+					res.uid = en->GetUID();
+					if (peerConnection)
+						peerConnection->Send(res);
+					SendPlayerSync();
+
 					delete en;
 				}
 
@@ -501,130 +513,21 @@ void Map::AddEnemy(Enemy en)
 {
 	Enemy *new_en = new Enemy(en);
 
-	if (localPlayer->IsHost())
-	{
-		Networking::EnemyStruct es;
-		es.owner_ = 0;
-		es.type_ = 0;
-		es.x = en.GetPos().x;
-		es.y = en.GetPos().y;
-		if (peerConnection)
-			peerConnection->Send(es);
-	}
-
-
-	AStar starretjie = AStar(TILES_X, TILES_Y, &pathingArr);
-	Vector2f pos = new_en->GetPos();
-	vector<TileNode> enemyPath = starretjie.Search(startNode, endNode);
-
-	enemyPath.insert(enemyPath.begin(), startNode);
-	new_en->UpdatePath(enemyPath);
-
 	new_en->on_path_completed.Connect(this, &Map::EnemyCompletedPath);
 
 	AddComponent(new_en);
-	enemies.push_back(new_en);	
-
+	enemies.push_back(new_en);
 
 }
 
-//Single Player Wave Spawning
-void Map::WaveSpawnUpdate(float elapsed_seconds)
+void Map::OnAddEnemy(EnemyStruct e)
 {
-	//We done
-	if (cur_wave > total_waves)
-	{
-		return;
-	}
 
-	if (current_wave_time > time_between_waves)
-	{
-		//Spawn New Wave
-		current_wave_time = 0;
-		cur_wave++;
-		creeps_spawned_this_wave = 0;
-
-		on_new_wave(cur_wave);
-
-		/*
-		creeps_per_wave = 10;
-		cur_wave = 0;
-		total_waves = noWaves;
-		
-		creeps_spawned_this_wave = 0;
-		time_between_waves = 30;
-		time_between_creeps = 1;
-		current_creep_time = 0;
-		current_wave_time = 0;*/
-		creeps_per_wave = waves[cur_wave].amount;
-		time_between_creeps = 15.0f / creeps_per_wave;
-		
-	}
-	else if (current_creep_time > time_between_creeps)
-	{
-		current_creep_time = 0;
-		
-		Game_Entities::Enemy en(0, 0,last_enemy_uid, 2);
-		en.SetPosition(Vector2f(startNode.x * 32, startNode.y * 32));
-		en.ChangeType(cur_wave);
-		AddEnemy(en);
-		creeps_spawned_this_wave++;
-		last_enemy_uid++;
-		on_creep_spawned(creeps_spawned_this_wave);
-
-	}
-	else if (creeps_spawned_this_wave >= creeps_per_wave)
-	{
-		current_wave_time += elapsed_seconds;
-	}
-	else
-	{
-		current_creep_time += elapsed_seconds;
-	}
 }
 
-const int Map::GetCurrentWave()
-{
-	return cur_wave;
-}
-
-const int Map::GetMaxWaves()
-{
-	return total_waves;
-}
-
-const int Map::GetCurrentCreepNumber()
-{
-	return creeps_spawned_this_wave;
-}
-
-const int Map::GetCreepsPerWave()
-{
-	return creeps_per_wave;
-}
 
 void Map::EnemyCompletedPath(Enemy *en)
 {
-	on_creep_killed(0); //Creep dies, get 0 bounty
-	RemoveComponent(en);
-	RemoveEnemyFromList(en);
-
-	en->MarkForDeletion();
-	//delete en;
-
-	
-
-	int player_id = localPlayer->GetID();
-
-	if (player_id == localPlayer->GetID())
-	{
-		localPlayer->RemoveLives(1);
-	}
-	if (player_id == remotePlayer->GetID())
-	{
-		remotePlayer->RemoveLives(1);
-	}
-	on_life_lost(1);
 
 }
 
@@ -639,12 +542,12 @@ void Map::SetConnection(Connection *conn)
 	this->peerConnection = conn;
 	if (peerConnection)
 	{
-
 		peerConnection->OnNewEnemyReceived.Connect(this, &World::Map::OnNewEnemyReceived);
 		peerConnection->OnNewProjectileRecieved.Connect(this, &World::Map::OnNewProjectileReceived);
 		peerConnection->OnNewPSyncRecieved.Connect(this, &World::Map::OnNewPSyncReceived);
 		peerConnection->OnNewTowerReceived.Connect(this, &World::Map::OnNewTowerReceived);
 		peerConnection->OnRemoveEnemyReceived.Connect(this, &World::Map::OnRemoveEnemyReceived);
+		peerConnection->OnUpdateEnemyReceived.Connect(this, &World::Map::OnUpdateEnemyReceived);
 	}
 
 }
@@ -653,23 +556,29 @@ void Map::SetConnection(Connection *conn)
 void Map::SendPlayerSync()
 {
 	PlayerSyncStruct ps;
-	localPlayer->GetLives();
-
 	if (localPlayer->IsHost())
 	{
 		ps.p1_lives = localPlayer->GetLives();
 		ps.p1_gold = localPlayer->GetGold();
 		ps.p1_kills = localPlayer->GetCreepsKilled();
+		ps.p1_passiveGold = localPlayer->GetPassiveIncome();
+		ps.p2_lives = remotePlayer->GetLives();
 		ps.p2_gold = remotePlayer->GetGold();
 		ps.p2_kills = remotePlayer->GetCreepsKilled();
+		ps.p2_passiveGold = remotePlayer->GetPassiveIncome();
+		
 	}
 	else
 	{
 		ps.p1_lives = remotePlayer->GetLives();
 		ps.p1_gold = remotePlayer->GetGold();
 		ps.p1_kills = remotePlayer->GetCreepsKilled();
+		ps.p1_passiveGold = remotePlayer->GetPassiveIncome();
+		ps.p2_lives = localPlayer->GetGold();
 		ps.p2_gold = localPlayer->GetGold();
 		ps.p2_kills = localPlayer->GetCreepsKilled();
+		ps.p2_passiveGold = localPlayer->GetPassiveIncome();
+		
 	}
 
 	if (peerConnection)
@@ -678,7 +587,7 @@ void Map::SendPlayerSync()
 
 void Map::OnNewTowerReceived(TowerStruct ts)
 {
-	Tower *t = new Tower(ts.x, ts.y, ts.owner_,ts.owner_);
+	Tower *t = new Tower(ts.x, ts.y, ts.type_,ts.owner_);
 	t->ChangeParameters(ts.type_);
 	t->SetEnemiesPointer(&enemies);
 	t->on_shoot.Connect(this, &World::Map::AddProjectile);
@@ -696,6 +605,18 @@ void Map::OnNewTowerReceived(TowerStruct ts)
 		remotePlayer->RemoveGold(t->GetGoldCost());
 	}
 
+
+	sf::Color red = sf::Color(255, 0, 0, 255);
+	sf::Color blue = sf::Color(0, 0, 255, 255);
+	if (ts.owner_ == 1)
+	{
+		t->SetTint(red);
+	}
+	else
+	{
+		t->SetTint(blue);
+	}
+
 	on_tower_added(t);
 
 }
@@ -705,13 +626,14 @@ void Map::OnNewEnemyReceived(EnemyStruct es)
 	Game_Entities::Enemy en(0, 0,last_enemy_uid,es.owner_);
 	en.SetPosition(sf::Vector2f(es.x,es.y));
 	AddEnemy(en);
-	creeps_spawned_this_wave++;
-	on_creep_spawned(creeps_spawned_this_wave);
+	//creeps_spawned_this_wave++;
+	//on_creep_spawned(creeps_spawned_this_wave);
 	last_enemy_uid++;
 }
 
 void Map::OnNewProjectileReceived(ProjectileStruct p)
 {
+	
 	Vector2f projPos = sf::Vector2f(p.start_x, p.start_y);
 	Vector2f enemyPos = sf::Vector2f(p.end_x, p.end_y);
 	float dmg = p.damage;
@@ -726,9 +648,10 @@ void Map::OnNewPSyncReceived(PlayerSyncStruct s)
 {
 	if (localPlayer->IsHost())
 	{
-		remotePlayer->SetLives(s.p2_lives);
-		remotePlayer->SetCreepsKilled(s.p2_kills);
-		remotePlayer->SetGold(s.p2_gold);
+		//remotePlayer->SetLives(s.p2_lives);
+		//remotePlayer->SetCreepsKilled(s.p2_kills);
+		//remotePlayer->SetGold(s.p2_gold);
+		//remotePlayer->SetPassiveIncome(s.p2_passiveGold);
 	}
 	else
 	{
@@ -740,7 +663,9 @@ void Map::OnNewPSyncReceived(PlayerSyncStruct s)
 		localPlayer->SetLives(s.p2_lives);
 		localPlayer->SetCreepsKilled(s.p2_kills);
 		localPlayer->SetGold(s.p2_gold);
+		localPlayer->SetPassiveIncome(s.p2_passiveGold);
 
+		remotePlayer->SetPassiveIncome(s.p1_gold);
 		remotePlayer->SetLives(s.p1_lives);
 		remotePlayer->SetCreepsKilled(s.p1_kills);
 		remotePlayer->SetGold(s.p1_gold);
@@ -751,7 +676,7 @@ void Map::OnNewPSyncReceived(PlayerSyncStruct s)
 void Map::OnRemoveEnemyReceived(RemoveEnemyStruct en)
 {
 	//only sync if we are client
-	if (localPlayer->IsHost() == 1)
+	if (localPlayer->IsHost())
 		return;
 
 	for (int i = 0; i< enemies.size(); i++)
@@ -759,10 +684,56 @@ void Map::OnRemoveEnemyReceived(RemoveEnemyStruct en)
 		Enemy *e = enemies[i];
 		if (e->GetUID() == en.uid)
 		{
-			e->MarkForDeletion();
-			enemies.erase(enemies.begin() + i);
+			e->MarkForDeletion();			
+			RemoveEnemyFromList(e);
+			RemoveComponent(e);
 			delete e;
 			return;
 		}
 	}
+}
+
+void Map::OnUpdateEnemyReceived(UpdateEnemyStruct res)
+{
+	//only sync if we are client
+	if (localPlayer->IsHost())
+		return;
+
+	for (int i = 0; i < enemies.size(); i++)
+	{
+		Enemy *e = enemies[i];
+		if (e->GetUID() == res.UID)
+		{
+			e->SetPosition(sf::Vector2f(res.x, res.y));
+			e->SetCurrentHealth(res.health);
+			return;
+		}
+	}
+}
+
+void Map::update(float v)
+{
+
+}
+
+void Map::LoadContent()
+{
+
+}
+
+const TileNode Map:: GetStartingNode()
+{
+	return startNode;
+}
+
+const TileNode Map::GetEndNode()
+{
+	return endNode;
+}
+
+const bool Map::IsMultiPlayerGame()
+{
+	if (peerConnection)
+		return true;
+	return false;
 }

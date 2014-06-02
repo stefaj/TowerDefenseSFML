@@ -8,13 +8,13 @@ Tower::Tower(int x, int y, int lvl, int playerId) : PlayerObject(playerId)
 	tower_sprite = sf::Sprite();
 
 	tower_tex = new sf::Texture();
-	lvl = 1;
 
 	ChangeParameters(lvl);
 
 	tower_sprite.setPosition(x, y);
 
 	SetOwnerID(playerId);
+	cool_down = 0;
 }
 
 Tower::Tower()
@@ -27,21 +27,72 @@ void Tower::ChangeParameters(int lvl)
 	level = lvl;
 	if (lvl == 1)
 	{
-		if (!tower_tex->loadFromFile("sprites/CANNON_TOWER_STRUCTURE.png"))
+		if (!tower_tex->loadFromFile("sprites/towers/cannon_1.png"))
 		{
 		}
 
 		tower_sprite.setTexture(*tower_tex);
 		radius = 128;
 		attack_speed = 1.0f;
-		cool_down = 0;
 		damage = 15;
 		gold_cost = Networking::TowerStruct::GetGoldCost(lvl);
 	}
+	if (lvl == 2)
+	{
+		if (!tower_tex->loadFromFile("sprites/towers/cannon_2.png"))
+		{
+		}
 
+		tower_sprite.setTexture(*tower_tex);
+		radius = 256;
+		attack_speed = 0.5f;
+		damage = 10;
+		gold_cost = Networking::TowerStruct::GetGoldCost(lvl);
+	}
+	if (lvl == 3)
+	{
+		if (!tower_tex->loadFromFile("sprites/towers/cannon_3.png"))
+		{
+		}
+
+		tower_sprite.setTexture(*tower_tex);
+		radius = 128;
+		attack_speed = 1.0f;
+		damage = 15;
+		gold_cost = Networking::TowerStruct::GetGoldCost(lvl);
+	}
+	if (lvl == 4)
+	{
+		if (!tower_tex->loadFromFile("sprites/towers/cannon_4.png"))
+		{
+		}
+
+		tower_sprite.setTexture(*tower_tex);
+		radius = 128;
+		attack_speed = 1.0f;
+		
+		damage = 15;
+		gold_cost = Networking::TowerStruct::GetGoldCost(lvl);
+	}
+	if (lvl == 5)
+	{
+		if (!tower_tex->loadFromFile("sprites/towers/cannon_5.png"))
+		{
+		}
+
+		tower_sprite.setTexture(*tower_tex);
+		radius = 128;
+		attack_speed = 1.0f;
+		damage = 15;
+		gold_cost = Networking::TowerStruct::GetGoldCost(lvl);
+	}
+	
 }
 
-
+void Tower::SetTint(const sf::Color &col)
+{
+	tower_sprite.setColor(col);
+}
 
 
 double Tower::angle_to_point(double x, double y)
@@ -62,6 +113,8 @@ void Tower::Update(float elapsed_seconds)
 		for (int i = 0; i < enemies->size(); i++)
 		{
 			Enemy *en = enemies->at(i);
+			if (en->GetOwnerID() == this->GetOwnerID())
+				continue;
 			Vector2f dPos = en->GetPos() - GetPosition();
 			float length = sqrtf(dPos.x*dPos.x + dPos.y * dPos.y);
 

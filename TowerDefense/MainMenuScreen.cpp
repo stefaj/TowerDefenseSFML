@@ -14,6 +14,16 @@ MainMenuScreen::MainMenuScreen(sf::RenderWindow *rt) : GameScreen(rt)
 	singlePlayerlbl->SetPosition(sf::Vector2f(970, 316));
 	singlePlayerlbl->On_Click.Connect(this, &MainMenuScreen::singlePlayer_click);
 
+	multiplayerlbl = new UI::Label(input);
+	multiplayerlbl->SetText("Multiplayer");
+	multiplayerlbl->SetPosition(sf::Vector2f(970, 316 + 64));
+	multiplayerlbl->On_Click.Connect(this, &MainMenuScreen::multiPlayer_click);
+
+	highscorelbl = new UI::Label(input);
+	highscorelbl->SetText("Highscores");
+	highscorelbl->SetPosition(sf::Vector2f(970, 316 + 64*2));
+	highscorelbl->On_Click.Connect(this, &MainMenuScreen::highscore_click);
+
 	exitlbl = new UI::Label(input);
 	exitlbl->SetText("Exit");
 	exitlbl->SetPosition(sf::Vector2f(970, 316+64*5));
@@ -35,7 +45,9 @@ void MainMenuScreen::update(float elapsed_seconds)
 	input->UpdateFirst(render_window);
 
 	singlePlayerlbl->Update(elapsed_seconds);
+	highscorelbl->Update(elapsed_seconds);
 	exitlbl->Update(elapsed_seconds);
+	multiplayerlbl->Update(elapsed_seconds);
 
 	input->UpdateLast();
 }
@@ -46,8 +58,10 @@ void MainMenuScreen::draw()
 	render_window->draw(background_sprite);
 
 	titleLabel->Draw(render_window);
-
+	highscorelbl->Draw(render_window);
 	singlePlayerlbl->Draw(render_window);
+	multiplayerlbl->Draw(render_window);
+
 	exitlbl->Draw(render_window);
 	
 }
@@ -65,6 +79,11 @@ void MainMenuScreen::LoadContent()
 	{
 		//some error
 	}
+
+}
+
+void MainMenuScreen::OnLoad()
+{
 	backgroundMusic.setVolume(25);
 	backgroundMusic.play();
 	backgroundMusic.setLoop(true);
@@ -75,9 +94,20 @@ void MainMenuScreen::singlePlayer_hover(UI::Component *c)
 
 }
 
+void MainMenuScreen::highscore_click(UI::Component *c)
+{
+	On_Highscore(0);
+}
+
 void MainMenuScreen::singlePlayer_click(UI::Component *c)
 {
 	On_SinglePlayer(0);
+	backgroundMusic.stop();
+}
+
+void MainMenuScreen::multiPlayer_click(UI::Component *c)
+{
+	On_Multiplayer(0);
 	backgroundMusic.stop();
 }
 

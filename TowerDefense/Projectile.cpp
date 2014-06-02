@@ -38,6 +38,42 @@ void Projectile::ChangeParameters(int lvl)
 		sprite.setTexture(tex);
 		speed = 5.0f;
 	}
+	if (level == 2)
+	{
+		if (!tex.loadFromFile("sprites/bullet.png"))
+		{
+		}
+
+		sprite.setTexture(tex);
+		speed = 5.0f;
+	}
+	if (level == 3)
+	{
+		if (!tex.loadFromFile("sprites/bullet.png"))
+		{
+		}
+
+		sprite.setTexture(tex);
+		speed = 5.0f;
+	}
+	if (level == 4)
+	{
+		if (!tex.loadFromFile("sprites/bullet.png"))
+		{
+		}
+
+		sprite.setTexture(tex);
+		speed = 5.0f;
+	}
+	if (level == 5)
+	{
+		if (!tex.loadFromFile("sprites/bullet.png"))
+		{
+		}
+
+		sprite.setTexture(tex);
+		speed = 5.0f;
+	}
 }
 
 const int  Projectile::GetLevel()

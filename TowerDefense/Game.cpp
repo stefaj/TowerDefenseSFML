@@ -34,6 +34,7 @@ void Game::ProcessEvents()
 		{
 			//Key gets pressed
 		}
+		ProcessEvent(&event);
 	}
 }
 
@@ -49,6 +50,11 @@ void Game::Run()
 }
 
 void Game::LoadContent()
+{
+
+}
+
+void Game::ProcessEvent(sf::Event *e)
 {
 
 }

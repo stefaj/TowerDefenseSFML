@@ -147,3 +147,8 @@ void Label::SetCharacterSize(int v)
 {
 	text.setCharacterSize(v);
 }
+
+const sf::String Label::GetText()
+{
+	return text.getString();
+}

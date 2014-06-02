@@ -11,11 +11,25 @@ Player::Player(int id_, bool isHost)
 	id = id_;
 	lives = 10;
 	host = isHost;
+	creeps_killed = 0;
+	passiveIncome = 0;
+	isActive = true;
 }
 
 
 Player::~Player()
 {
+}
+
+
+void Player::SetActive(bool val)
+{
+	isActive = val;
+}
+
+const bool Player::GetIsActive()
+{
+	return isActive;
 }
 
 
@@ -85,4 +99,24 @@ void Player::SetLives(int val)
 void Player::SetCreepsKilled(int val)
 {
 	creeps_killed = val;
+}
+
+void Player::SetPassiveIncome(const int &val)
+{
+	passiveIncome = val;
+}
+
+void Player::AddPassiveIncome(const int &val)
+{
+	passiveIncome += val;
+}
+
+void Player::RemovePassiveIncome(const int &val)
+{
+	passiveIncome -= val;
+}
+
+const int Player::GetPassiveIncome()
+{
+	return passiveIncome;
 }

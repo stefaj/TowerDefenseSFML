@@ -8,6 +8,15 @@
 #include "MainMenuScreen.h"
 #include <map>
 #include "GameScreen.h"
+#include "HighscoreScreen.h"
+#include "SingleplayerMap.h"
+#include "MultiplayerMap.h"
+#include "ScreenManager.h"
+#include "LobbyScreen.h"
+#include "SFML/Network.hpp"
+#include "GameOverScreen.h"
+#include <memory>
+#include "WinnerScreen.h"
 
 class TDGame :
 	public Game
@@ -21,27 +30,42 @@ public:
 	void LoadContent();
 
 private:
-	World::Map map1;
+	ScreenManager screenMan;
+	
 	HUD *hud;
+
+	//Screens
+	World::Map *map1;
 	MainMenuScreen *mainMenu;
+	LobbyScreen *lobby;
+	HighscoreScreen *hsScreen;
+	GameOverScreen *gameOverScreen;
+	WinnerScreen *winnerScreen;
+
+	sf::Clock clock;
 
 	Player *player1;
 	Player *player2;
 
 	sf::View view;
 
-	std::map<std::string, GameScreen*> screens;
-	GameScreen *activeScreen;
+	
+	
 
 	void exit_clicked(int v);
 	void single_clicked(int v);
+	void highscore_clicked(int v);
+	void multiplayer_clicked(int v);
+	void game_joined(sf::TcpSocket *sock, bool isHost);
+	void single_player_gameover(int score);
+	void multi_player_gameover(bool didwin);
 
-	sf::Clock clock;
-	bool in_transition = false;
-	float transition_speed = 1.0;
-	float transition_time = 0;
-	sf::Texture last_trans_tex;
-	sf::Sprite last_trans_spr;
+	void cleanup_after_game();
+
+	void transition_to_main(int v);
+
+	void ProcessEvent(sf::Event *e);
+	
 
 };
 

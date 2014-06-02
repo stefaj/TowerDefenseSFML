@@ -178,9 +178,17 @@
     <ClCompile Include="Connection.cpp" />
     <ClCompile Include="DrawableGameComponent.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="GameOverScreen.cpp" />
+    <ClCompile Include="highscorefile.cpp" />
+    <ClCompile Include="HighscoreScreen.cpp" />
+    <ClCompile Include="HostScreen.cpp" />
+    <ClCompile Include="LobbyScreen.cpp" />
     <ClCompile Include="MainMenuScreen.cpp" />
+    <ClCompile Include="MultiplayerMap.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerObject.cpp" />
+    <ClCompile Include="ScreenManager.cpp" />
+    <ClCompile Include="SingleplayerMap.cpp" />
     <ClCompile Include="UIWindow.cpp" />
     <ClCompile Include="WaveFabAllocator.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -196,6 +204,7 @@
     <ClCompile Include="TDGame.cpp" />
     <ClCompile Include="tile_node.cpp" />
     <ClCompile Include="Tower.cpp" />
+    <ClCompile Include="WinnerScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Anim.h" />
@@ -209,16 +218,26 @@
     <ClInclude Include="DrawableGameComponent.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyStruct.h" />
+    <ClInclude Include="GameOverScreen.h" />
+    <ClInclude Include="highscore.h" />
+    <ClInclude Include="highscorefile.h" />
+    <ClInclude Include="HighscoreScreen.h" />
+    <ClInclude Include="HostScreen.h" />
+    <ClInclude Include="LobbyScreen.h" />
     <ClInclude Include="MainMenuScreen.h" />
+    <ClInclude Include="MultiplayerMap.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerObject.h" />
     <ClInclude Include="PlayerSyncStruct.h" />
     <ClInclude Include="ProjectileStruct.h" />
     <ClInclude Include="RemoveEnemyStruct.h" />
+    <ClInclude Include="ScreenManager.h" />
     <ClInclude Include="Signalling\Delegate.h" />
     <ClInclude Include="Signalling\Signal.h" />
+    <ClInclude Include="SingleplayerMap.h" />
     <ClInclude Include="TowerStruct.h" />
     <ClInclude Include="UIWindow.h" />
+    <ClInclude Include="UpdateEnemyStruct.h" />
     <ClInclude Include="Wave.h" />
     <ClInclude Include="WaveFabAllocator.h" />
     <ClInclude Include="Game.h" />
@@ -235,6 +254,7 @@
     <ClInclude Include="tile_node.h" />
     <ClInclude Include="Tower.h" />
     <ClInclude Include="WaveList.h" />
+    <ClInclude Include="WinnerScreen.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="TODO.txt" />

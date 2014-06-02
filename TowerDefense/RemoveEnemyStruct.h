@@ -7,6 +7,6 @@ namespace Networking
 	{
 	public:
 		RemoveEnemyStruct(){}
-		int uid;
+		sf::Int32 uid;
 	};
 }

@@ -101,3 +101,8 @@ void AnimPlayer::SetScale(float s)
 {
 	sprite.setScale(s, s);
 }
+
+void AnimPlayer::SetTint(const sf::Color &col)
+{
+	sprite.setColor(col);
+}

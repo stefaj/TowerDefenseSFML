@@ -11,6 +11,8 @@ public:
 	const int GetCreepsKilled();
 	const int GetLives();
 	const bool IsHost();
+	const bool GetIsActive();
+	const int GetPassiveIncome();
 
 	void AddGold(int amount);
 	void RemoveGold(int amount);
@@ -22,8 +24,15 @@ public:
 	void RemoveCreepsKilled(int amount);
 
 	void SetGold(int val);
+	
 	void SetLives(int val);
 	void SetCreepsKilled(int val);
+
+	void SetActive(bool val);
+	
+	void SetPassiveIncome(const int &val);
+	void AddPassiveIncome(const int &val);
+	void RemovePassiveIncome(const int &val);
 
 private:
 	int id;
@@ -31,5 +40,7 @@ private:
 	int creeps_killed;
 	int lives;
 	bool host;
+	bool isActive;
+	int passiveIncome;
 };
 

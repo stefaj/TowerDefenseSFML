@@ -20,6 +20,7 @@ namespace States
 
 	protected:
 		sf::RenderWindow *window;
+		virtual void ProcessEvent(sf::Event *e);
 
 	};
 

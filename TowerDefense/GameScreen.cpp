@@ -17,7 +17,13 @@ void GameScreen::Update()
 	
 	update(elapsed_seconds);
 	for (int i = 0; i < gameComponents.size(); i++)
-		gameComponents[i]->Update(elapsed_seconds);
+	{
+		if (gameComponents[i])
+		{
+			if (!gameComponents[i]->ShouldDelete())
+				gameComponents[i]->Update(elapsed_seconds);
+		}
+	}
 	
 
 }
@@ -42,6 +48,16 @@ void GameScreen::RemoveComponent(DrawableGameComponent *comp)
 	auto item = std::find(gameComponents.begin(), gameComponents.end(), comp);
 	if (item != gameComponents.end())
 		gameComponents.erase(item);
+
+}
+
+void GameScreen::OnLoad()
+{
+
+}
+
+void GameScreen::ProcessEvent(sf::Event *e)
+{
 
 }
 

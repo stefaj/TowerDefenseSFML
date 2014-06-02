@@ -14,6 +14,8 @@ namespace Networking
 		sf::Int32  p2_kills;
 		sf::Int32  p1_gold;
 		sf::Int32  p2_gold;
+		sf::Int32  p1_passiveGold;
+		sf::Int32  p2_passiveGold;
 	};
 
 }

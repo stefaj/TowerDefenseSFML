@@ -40,3 +40,13 @@ string Component::GetProperty(string name)
 {
 	return properties.at(name);
 }
+
+const bool Component::IsLMBClicked()
+{
+	if (GetBoundingBox().intersects(input->GetMouseBoundingBoxWorld()))
+	{
+		if (input->is_left_mb_released())
+			return true;
+		
+	}
+}

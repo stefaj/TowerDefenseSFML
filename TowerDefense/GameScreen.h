@@ -17,16 +17,17 @@ namespace States
 		~GameScreen();
 		void Update();
 		void Draw();
+		virtual void OnLoad();
+		virtual void ProcessEvent(sf::Event *e);
 		void AddComponent(DrawableGameComponent *comp);
 		void RemoveComponent(DrawableGameComponent *comp);
 	protected:
 		vector<DrawableGameComponent*> gameComponents;
 		virtual void update(float elapsed_seconds) = 0;
 		virtual void draw() = 0;
+		
 		sf::RenderWindow *render_window;
 		virtual void LoadContent() = 0;
 		sf::Clock clock;
-
 	};
-
 }

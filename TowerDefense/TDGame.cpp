@@ -7,45 +7,31 @@
 
 TDGame::TDGame()
 {
-	player1 = new Player(1,true);
-	player1->AddGold(50);
-
-	player2 = new Player(2,false);
-	player2->AddGold(50);
-
-	LoadContent();
-
+	
 
 	view = sf::View(sf::FloatRect(0, 0, 1280, 720));
 	//view.zoom(TILES_X * GRID_WIDTH / 1280.0f);
 	//view.rotate(10);
 	window->setView(view);
 
+	screenMan = ScreenManager(window);
+
+	LoadContent();
 
 }
 
 
 TDGame::~TDGame()
 {
-	delete hud;
+
 }
 
 void TDGame::Draw()
 {
 	window->clear();
 
-	
+	screenMan.Draw();
 
-		activeScreen->Draw();
-
-		if (activeScreen == screens["single"])
-			hud->draw(window);
-	
-		if (in_transition && transition_time < transition_speed)
-		{
-			window->draw(last_trans_spr);
-
-		}
 	window->display();
 }
 
@@ -54,44 +40,44 @@ void TDGame::Update()
 	sf::Time elapsed = clock.restart();
 	float elapsed_seconds = elapsed.asSeconds();
 	
-	if (in_transition && transition_time < transition_speed)
-	{
-		transition_time += elapsed_seconds;
-		last_trans_spr.move(WINDOW_WIDTH* elapsed_seconds / transition_speed, 0);
-		last_trans_spr.setColor(sf::Color(255, 255, 255, 255 - 255 * transition_time / transition_speed));
-	}
-
-	activeScreen->Update();
-	if (activeScreen == screens["single"])
-		hud->update(window);
+	screenMan.Update(elapsed_seconds);
 
 }
 
 void TDGame::LoadContent()
 {
-	map1 = World::Map(window);
-	map1.SetPlayers(player1, player2);
-	map1.SetConnection(nullptr);
-
-	hud = new HUD(&map1, player1,player2);
-	Gallant::Signal1< int > updateLabel;
-		
-	hud->on_tower_add.Connect(&map1, &World::Map::AddNewTower);
-
-	map1.on_new_wave.Connect(hud, &HUD::OnNewWave);
-	map1.on_creep_killed.Connect(hud, &HUD::OnCreepKilled);
-	map1.on_tower_added.Connect(hud, &HUD::OnTowerAdded);
-	map1.on_life_lost.Connect(hud, &HUD::OnLifeLost);
+	window->clear();
+	window->display();
 
 	mainMenu = new MainMenuScreen(window);
 	mainMenu->On_Exit.Connect(this, &TDGame::exit_clicked);
 	mainMenu->On_SinglePlayer.Connect(this, &TDGame::single_clicked);
+	mainMenu->On_Highscore.Connect(this, &TDGame::highscore_clicked);
+	mainMenu->On_Multiplayer.Connect(this, &TDGame::multiplayer_clicked);
 
-	screens["mainmenu"] = mainMenu;
-	screens["single"] = &map1;
+	hsScreen = new HighscoreScreen(window);
+	hsScreen->On_Close.Connect(this, &TDGame::transition_to_main);
+	lobby = new LobbyScreen(window);
+	lobby->On_JoinGame.Connect(this, &TDGame::game_joined);
 
-	activeScreen = mainMenu;
+	gameOverScreen = new GameOverScreen(window);
+	gameOverScreen->SetScore(50);
+	gameOverScreen->On_Close.Connect(this, &TDGame::transition_to_main);
 
+	winnerScreen = new WinnerScreen(window);
+	winnerScreen->SetWinner(false);
+	winnerScreen->On_Close.Connect(this, &TDGame::transition_to_main);
+
+	screenMan.AddScreen("lobby", lobby);
+	screenMan.AddScreen("mainmenu", mainMenu);
+	screenMan.AddScreen("highscores",hsScreen);
+	screenMan.AddScreen("winner", winnerScreen);
+	screenMan.AddScreen("gameover", gameOverScreen);
+	
+	
+	screenMan.TransitionToScreen("mainmenu");
+	
+	
 	
 }
 
@@ -100,17 +86,148 @@ void TDGame::exit_clicked(int v)
 	window->close();
 }
 
+void TDGame::highscore_clicked(int v)
+{
+	screenMan.TransitionToScreen("highscores");
+}
+
+
+void TDGame::multiplayer_clicked(int v)
+{
+	screenMan.TransitionToScreen("lobby");
+}
+
+void TDGame::game_joined(sf::TcpSocket *sock, bool isHost)
+{
+	map1 = new World::MultiplayerMap(window, "multiplayer2.tmx");
+	
+	if (isHost)
+	{
+		player1 = new Player(1, true);
+		player1->AddGold(500);
+
+		player2 = new Player(2, false);
+		player2->AddGold(500);
+
+		hud = new HUD(map1, player1, player2);
+		map1->SetPlayers(player1, player2);
+	}
+	else
+	{//We are not the host, we are player 2
+		player1 = new Player(1, true);
+		player1->AddGold(500);
+
+		player2 = new Player(2, false);
+		player2->AddGold(500);
+
+		hud = new HUD(map1, player2, player1);
+
+		map1->SetPlayers(player2, player1);
+	}
+
+	
+
+	Connection *conn = new Connection(sock);
+	
+	map1->SetConnection(conn);
+
+	map1->on_new_wave.Connect(hud, &HUD::OnNewWave);
+	map1->on_creep_killed.Connect(hud, &HUD::OnCreepKilled);
+	map1->on_tower_added.Connect(hud, &HUD::OnTowerAdded);
+	map1->on_life_lost.Connect(hud, &HUD::OnLifeLost);
+	map1->on_game_over.Connect(hud, &HUD::OnGameOver);
+	map1->on_show_winner.Connect(this, &TDGame::multi_player_gameover);
+
+	
+	hud->on_enemy_add.Connect(map1, &World::Map::OnAddEnemy);
+	hud->on_tower_add.Connect(map1, &World::Map::AddNewTower);
+	screenMan.PostMapDraw.Connect(hud, &HUD::draw);
+	screenMan.PostMapUpdate.Connect(hud, &HUD::update);
+
+
+	screenMan.AddScreen("map", map1);
+
+	screenMan.TransitionToScreen("map");
+}
+
+void TDGame::ProcessEvent(sf::Event *e)
+{
+	screenMan.ProcessEvent(e);
+}
 
 void TDGame::single_clicked(int v)
 {
-	sf::Image img = window->capture();
-	last_trans_tex.loadFromImage(img);
-	last_trans_spr = sf::Sprite(last_trans_tex);
-	//tex.update(window->capture());
-	//tex.update()
-	in_transition = true;
-	activeScreen = screens["single"];
-	transition_time = 0;
-	
+	player1 = new Player(1, true);
+	player1->AddGold(50);
 
+	player2 = new Player(2, false);
+	player2->AddGold(50);
+	player2->SetActive(false);
+
+	map1 = new World::SingleplayerMap(window, "map3.tmx");
+	hud = new HUD(map1, player1, player2);
+
+	map1->SetPlayers(player1, player2);
+	map1->SetConnection(nullptr);
+
+	map1->on_new_wave.Connect(hud, &HUD::OnNewWave);
+	map1->on_creep_killed.Connect(hud, &HUD::OnCreepKilled);
+	map1->on_tower_added.Connect(hud, &HUD::OnTowerAdded);
+	map1->on_life_lost.Connect(hud, &HUD::OnLifeLost);
+	map1->on_game_over.Connect(hud, &HUD::OnGameOver);
+	map1->on_game_over.Connect(this, &TDGame::single_player_gameover);
+
+	hud->on_tower_add.Connect(map1, &World::Map::AddNewTower);
+	screenMan.PostMapDraw.Connect(hud, &HUD::draw);
+	screenMan.PostMapUpdate.Connect(hud, &HUD::update);
+
+
+	screenMan.AddScreen("map", map1);
+
+	screenMan.TransitionToScreen("map");
+
+	
+}
+
+void TDGame::transition_to_main(int v)
+{
+	screenMan.TransitionToScreen("mainmenu");
+}
+
+void TDGame::multi_player_gameover(bool didwin)
+{
+	sf::View view = sf::View(sf::FloatRect(0, 0, 1280, 720));
+	window->setView(view);
+
+	winnerScreen->SetWinner(didwin);
+	screenMan.TransitionToScreen("winner");
+
+	cleanup_after_game();
+}
+
+
+void TDGame::single_player_gameover(int score)
+{
+
+	sf::View view = sf::View(sf::FloatRect(0, 0, 1280, 720));
+	window->setView(view);
+
+	screenMan.TransitionToScreen("gameover");
+	gameOverScreen->SetScore(score);
+
+	cleanup_after_game();
+}
+
+
+void TDGame::cleanup_after_game()
+{
+	
+	screenMan.PostMapDraw.Clear();
+	screenMan.PostMapUpdate.Clear();
+	
+	delete player1;
+	delete player2;
+	screenMan.RemoveScreen("map");
+	delete hud;
+	//delete map1;
 }

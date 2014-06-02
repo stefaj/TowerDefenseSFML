@@ -28,6 +28,7 @@ namespace Game_Entities
 		const sf::FloatRect GetBoundingBox();
 		const int GetUpgradeLevel();
 		const int GetGoldCost();
+		void SetTint(const sf::Color &col);
 		Gallant::Signal1<Networking::ProjectileStruct> on_shoot;
 		void ChangeParameters(int lvl);
 		static int GetGoldCost(int level);

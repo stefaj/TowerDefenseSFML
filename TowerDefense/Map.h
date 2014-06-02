@@ -27,8 +27,9 @@ namespace World
 	{
 
 	public:
-		explicit Map(sf::RenderWindow *rw);
+		explicit Map(sf::RenderWindow *rw, std::string map_name);
 		Map();
+		~Map();
 		void draw();
 				
 		void SetPlayers(Player *local, Player *remote);
@@ -37,8 +38,10 @@ namespace World
 		//event handling
 		void AddNewTower(TowerStruct ts);
 		void AddEnemy(Enemy en);
-		void EnemyCompletedPath(Enemy *en);
+		virtual void OnAddEnemy(EnemyStruct e);
+		virtual void EnemyCompletedPath(Enemy *en);
 
+		bool IsWall(sf::Vector2f point);
 		void SetConnection(Connection *conn);
 
 		sf::Vector2f GetSize();
@@ -46,12 +49,12 @@ namespace World
 		Tower* GetTower(sf::Vector2f point);
 
 		//Wave Spawning Logic
-		const int GetCurrentWave();
-		const int GetMaxWaves();
-		const int GetCurrentCreepNumber();
-		const int GetCreepsPerWave();
+
 		//Wave Spawning events
 		//Note that int* is an array
+
+		Gallant::Signal1<int> on_game_over;
+		Gallant::Signal1<bool> on_show_winner;
 		
 		//Networking signals
 		Gallant::Signal1<int> on_creep_spawned;
@@ -60,9 +63,20 @@ namespace World
 		Gallant::Signal1<Tower*> on_tower_added; //Parameter gives new tower
 		Gallant::Signal1<int> on_life_lost; //Parameter gives player id
 
-	private:
-		void update(float elapsed_seconds);
-		void LoadContent();
+		virtual void OnNewTowerReceived(TowerStruct);
+		virtual void OnNewEnemyReceived(EnemyStruct);
+		virtual void OnNewProjectileReceived(ProjectileStruct);
+		virtual void OnNewPSyncReceived(PlayerSyncStruct);
+		virtual void OnRemoveEnemyReceived(RemoveEnemyStruct);
+		virtual void OnUpdateEnemyReceived(UpdateEnemyStruct);
+
+		const TileNode GetStartingNode();
+		const TileNode GetEndNode();
+		const bool IsMultiPlayerGame();
+
+	protected:
+		virtual void update(float elapsed_seconds);
+		virtual void LoadContent();
 
 		//called with boost
 		void AddProjectile(ProjectileStruct ps);
@@ -75,13 +89,15 @@ namespace World
 		
 		bool DoesCollideWithCollisionLayer(sf::Vector2f point);
 		bool DoesCollideWithCollisionLayer(sf::FloatRect rect);
+		
+		AStar *pathfinder;
 
 		//DEBUGGING PURPOSES
 		void DrawGrid();
 		void DrawPathing();
 		sf::RectangleShape gridRect;
-		void UpdateEnemyPathing();
-		DrawableGameComponent *fab;
+		virtual void UpdateEnemyPathing();
+
 		//PathFinding
 		//Array of pathing information
 		TileNode *pathingArr;
@@ -93,24 +109,14 @@ namespace World
 		void GeneratePathing(TileNode *pathingGrid);
 
 		//Collision
-		void DoProjectileCollision();
-		void OnProjectileDie(Vector2f point);
+		virtual void DoProjectileCollision();
+		virtual void OnProjectileDie(Vector2f point);
 
 		void RemoveEnemyFromList(Enemy *en);
 		void RemoveProjectileFromList(Projectile *proj);
 		void RemoveTowerFromList(Tower *t);
 
-		//Wave Spawning Magic
-		int cur_wave;
-		int total_waves;
-		int creeps_per_wave;
-		int creeps_spawned_this_wave;
-		float time_between_waves;
-		float time_between_creeps;
-		float current_creep_time;
-		float current_wave_time;
 		int last_enemy_uid;
-		void WaveSpawnUpdate(float elapsed_seconds);
 
 		//Networking
 		Connection *peerConnection;
@@ -118,13 +124,10 @@ namespace World
 		Player *remotePlayer;
 
 		//Networking slots
-		void OnNewTowerReceived(TowerStruct);
-		void OnNewEnemyReceived(EnemyStruct);
-		void OnNewProjectileReceived(ProjectileStruct);
-		void OnNewPSyncReceived(PlayerSyncStruct);
-		void OnRemoveEnemyReceived(RemoveEnemyStruct);
+		
 		
 		void SendPlayerSync();
+		TileNode t_[TILES_X][TILES_Y];
 
 	};
 }

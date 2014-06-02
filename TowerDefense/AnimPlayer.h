@@ -29,6 +29,7 @@ namespace Animation
 		void SetPosition(sf::Vector2f);
 		void SetFrameIndex(int v);
 		void SetScale(float s);
+		void SetTint(const sf::Color &col);
 
 	private:
 		Anim *animation;

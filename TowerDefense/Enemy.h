@@ -35,14 +35,17 @@ namespace Game_Entities
         void ReduceHealth(float amount);
         const bool IsDead();
         const float GetHealth();
-        const float GetMaxHealth();
+		const float GetMaxHealth(); 
+		const int GetType();
 		const int GetBounty();
 		const int GetUID();
-		const int GetOwnerId();
+
+		void SetTint(const sf::Color &col);
 		void SetMaxHealth(float h);
 		void SetPosition(Vector2f pos);
 		void ChangeType(int lvl);
 		void SetOwnerID(int id);
+		void SetCurrentHealth(float h);
 		Gallant::Signal1<Enemy*> on_path_completed;
 
 		
