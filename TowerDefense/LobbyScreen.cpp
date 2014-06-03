@@ -96,7 +96,7 @@ void LobbyScreen::update(float elapsed_seconds)
 	unsigned short port = BROADCAST_PORT;
 	if (udpSock->receive(data, 100, received, sender, port) == sf::Socket::Done)
 	{
-		if (sender == sf::IpAddress::getLocalAddress() && isServerStarted)
+		if (sender == sf::IpAddress::getLocalAddress() /*&& isServerStarted*/)
 		{
 			//Ignore our own packets
 		}

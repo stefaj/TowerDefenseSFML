@@ -20,6 +20,12 @@ namespace Networking
 				return 20;
 			case 2:
 				return 40;
+			case 3:
+				return 80;
+			case 4:
+				return 160;
+			case 5:
+				return 320;
 			default:
 				return 100;
 			}

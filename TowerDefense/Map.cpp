@@ -562,6 +562,7 @@ void Map::SendPlayerSync()
 		ps.p1_gold = localPlayer->GetGold();
 		ps.p1_kills = localPlayer->GetCreepsKilled();
 		ps.p1_passiveGold = localPlayer->GetPassiveIncome();
+
 		ps.p2_lives = remotePlayer->GetLives();
 		ps.p2_gold = remotePlayer->GetGold();
 		ps.p2_kills = remotePlayer->GetCreepsKilled();
@@ -574,7 +575,8 @@ void Map::SendPlayerSync()
 		ps.p1_gold = remotePlayer->GetGold();
 		ps.p1_kills = remotePlayer->GetCreepsKilled();
 		ps.p1_passiveGold = remotePlayer->GetPassiveIncome();
-		ps.p2_lives = localPlayer->GetGold();
+
+		ps.p2_lives = localPlayer->GetLives();
 		ps.p2_gold = localPlayer->GetGold();
 		ps.p2_kills = localPlayer->GetCreepsKilled();
 		ps.p2_passiveGold = localPlayer->GetPassiveIncome();
@@ -591,6 +593,7 @@ void Map::OnNewTowerReceived(TowerStruct ts)
 	t->ChangeParameters(ts.type_);
 	t->SetEnemiesPointer(&enemies);
 	t->on_shoot.Connect(this, &World::Map::AddProjectile);
+
 	
 	towers.push_back(t);
 	AddComponent(t);

@@ -100,28 +100,25 @@ void TDGame::multiplayer_clicked(int v)
 void TDGame::game_joined(sf::TcpSocket *sock, bool isHost)
 {
 	map1 = new World::MultiplayerMap(window, "multiplayer2.tmx");
+
+	player1 = new Player(1, true);
+	player1->AddGold(100);
+	player1->AddPassiveIncome(10);
+
+	player2 = new Player(2, false);
+	player2->AddGold(100);
+	player2->AddPassiveIncome(10);
 	
 	if (isHost)
 	{
-		player1 = new Player(1, true);
-		player1->AddGold(500);
-
-		player2 = new Player(2, false);
-		player2->AddGold(500);
+		
 
 		hud = new HUD(map1, player1, player2);
 		map1->SetPlayers(player1, player2);
 	}
 	else
-	{//We are not the host, we are player 2
-		player1 = new Player(1, true);
-		player1->AddGold(500);
-
-		player2 = new Player(2, false);
-		player2->AddGold(500);
-
+	{
 		hud = new HUD(map1, player2, player1);
-
 		map1->SetPlayers(player2, player1);
 	}
 
@@ -164,7 +161,7 @@ void TDGame::single_clicked(int v)
 	player2->AddGold(50);
 	player2->SetActive(false);
 
-	map1 = new World::SingleplayerMap(window, "map3.tmx");
+	map1 = new World::SingleplayerMap(window, "sp1.tmx");
 	hud = new HUD(map1, player1, player2);
 
 	map1->SetPlayers(player1, player2);

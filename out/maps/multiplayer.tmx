@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="40" height="32" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="World_A1" tilewidth="32" tileheight="32">
+  <image source="../../../../../../Desktop/TD gfx/tilesets/World_A1.png" width="512" height="384"/>
+ </tileset>
+ <tileset firstgid="193" name="World_A2" tilewidth="32" tileheight="32">
+  <image source="../../../../../../Desktop/TD gfx/tilesets/World_A2.png" width="512" height="384"/>
+ </tileset>
+ <tileset firstgid="385" name="World_B" tilewidth="32" tileheight="32">
+  <image source="../../../../../../Desktop/TD gfx/tilesets/World_B.png" width="512" height="512"/>
+ </tileset>
+ <tileset firstgid="641" name="Outside_A2" tilewidth="32" tileheight="32">
+  <image source="../../../../../../Desktop/TD gfx/tilesets/Outside_A2.png" width="512" height="384"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="40" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztl1EKxCAQQ8vevEewR+hJ90sIYTKj3VRY8CMUXK3PTMay5+c4zq2trWndiUbWN9IFcvFV7DiG+zdgjNY7GEd8uoEHlbG5+DJG9KkL52Zsq/iQo8H8is3JpxizjLGXK/i4H7C2zFZ57+LjzM/obT6VIe5PzmF0Njdfxoa1a/SMdAW/u9mUD+puwcxiH+HYU8Ys71UueX+8I6MeG/1OZnurMa5zJWa+HvJVPaFyqHpWncvNN1LfzGfs9X4O5x2o/MB92Ut+D/eG+45WWey1iqT62/V9G+kR9E9xubKW+adyVc15k6/inVm7ivEXzf6H2dra+l99AZRDpDI=
+  </data>
+ </layer>
+ <layer name="Tile Layer 4" width="40" height="32">
+  <data encoding="base64" compression="zlib">
+   eJzt1jEOABAQRNFZ1+Za3IBzqTRam1jyX6OTn61Ggodu0rDbFXE6XpSTVNLtCgAA4KkF30X7bqvBevf7dce+tVtPX69/AQD42QQ5QCCX
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="40" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztltEJgDAMRNv5dQNdQzeoG9QNdA5TsH+xoBcx4D0I91G4hgeF5hjCKpOd5iazO8665yxTSJJL/C4Lk+KvnnkgNfx5gP4w6A+D/jDoD4P+MOgPo+VvOnd9kld33ekpaP4sUsPT/1nD+v/sAb5fDPrDoD8M+sP4s79OenqDrrf8DdIzGnTVvQ6EGzpX
+  </data>
+ </layer>
+ <layer name="Tile Layer 3" width="40" height="32">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgaIJqJgSGGibAYOXpwmUPIfGSQDVSXw4SqByaGyzx0eWLFYOYQMh8ZVAPFa9D0wMRw2YMuT6wYzBxC5uNzJ6lypAB85pAS5+SAXkYGhj5G8vUTE4aUgLlAt82jwH3UiqNRMLzBTSC+NdCOwAG+A9P/SyD9igi1g9kfIADzx1egn75RkK9HwSgYSLAVmHa3DYL0O1jcMQpGwUCDoVL3UQro5c9PZJYr6P6khXvJNfMjFj+RGy/43ECtuKYEDAY3DDQYKWUCrQELnfrQAEEMQXU=
+  </data>
+ </layer>
+ <objectgroup name="Collision" width="40" height="32">
+  <object x="0" y="544" width="640" height="128"/>
+  <object x="768" y="544" width="384" height="128"/>
+  <object x="0" y="0" width="96" height="544"/>
+  <object x="96" y="0" width="1184" height="96"/>
+  <object x="1184" y="96" width="96" height="896"/>
+  <object x="1184" y="992" width="96" height="32"/>
+  <object x="1152" y="544" width="32" height="128"/>
+  <object x="0" y="672" width="96" height="352"/>
+  <object x="736" y="576" width="32" height="64"/>
+ </objectgroup>
+ <objectgroup name="Start" width="40" height="32">
+  <object x="672" y="928" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup name="End" width="40" height="32">
+  <object x="640" y="224" width="32" height="32"/>
+ </objectgroup>
+</map>

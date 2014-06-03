@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="48" height="32" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="Cliff_tileset_0" tilewidth="32" tileheight="32">
+  <image source="Cliff_tileset_0.png" width="503" height="518"/>
+ </tileset>
+ <tileset firstgid="241" name="ground_tiles" tilewidth="32" tileheight="32">
+  <image source="ground_tiles.png" width="672" height="701"/>
+ </tileset>
+ <tileset firstgid="682" name="beach_sand_woa_0" tilewidth="32" tileheight="32">
+  <image source="beach_sand_woa_0.png" width="174" height="114"/>
+ </tileset>
+ <tileset firstgid="697" name="beach_sand_woa2_0" tilewidth="32" tileheight="32">
+  <image source="beach_sand_woa2_0.png" width="183" height="204"/>
+ </tileset>
+ <tileset firstgid="727" name="World_B" tilewidth="32" tileheight="32">
+  <image source="World_B.png" width="512" height="512"/>
+ </tileset>
+ <layer name="Background" width="48" height="32">
+  <data encoding="base64" compression="zlib">
+   eJzFmE1OwzAQhZOKBbCDdQfOkFwYegI2CLgAC/42vQpFbIrEWIrVp8eM7bQ2XTxFseP6m8lzPO7Yd90IWk4aZyqOE2hbF2juPHN5vHi435LHvFX9NOYv4fWei1eP/2LRdZeL/83/kto9v+H9sfzDPOGKvpYEN7YNqhvVo+pu0pNq1TDvFr/nF4xDaKxM/PeqZ9JDI+5hEucQ20sUx40J/n2/cx7zQG1LahNnfC6WF9Ur6c14z4fwe/cxBo9d4HmB56OfhMZyTmrzcyxxvgH6WdL/9R2uB+lt9lr8Hhd7PvUM5p+5LP5a3k/5yPM5MuGV+b381+Yu5UcO/tZYuRfqiz5rwZ9jxxxb8VhXoWcwxmPxW/e4h1m+Z++VzNWa3cu/t25xPbTi5z2shH+Od47FX7LvWrWPl/ugT9VG9VWJ32LP1QWYfyvX1jc+znOqtf+Z6nxRl3+geTn37PWSOs5616LcV6rrCvzMY8VkxSCOUnEMNLY2e6l4H2B+7sMapNa6TfnJi9M6A/C3htt4fbTaw3g9WPwYh/f+Sn6/RRzhnHpLWvX2ukYOK+9ReHZgv9eqhSKfd85DfvZPrs5u7XVUjt97ByW+nuuxfRTOqe+gj353Ts3x7Kta7OuMSjyY6vdYa8QQ+Lb97v9ISyWexj6ub1rmP/Dh/5G5/OfOwUGhvjlRfVdiPMQ7Jf5h1a5vUvoFEVZeAw==
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="48" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztmLlOw0AURZ/NUgESSNAhTVhqiKCBAoJSQXbXkK2gR5DwCWwFfAFQkJ+goIYCib8BOq4FVow1sZ/H49gSXOkospzMO3ae7RkTEc2COdKfd/DhwyeYBjMR6yyB5YhjyDJh+O+fwn6Bz0zEOmtgPeIYsgzLf96Ixz+DcRd8WEy5PyeC/ra/7Z5m/wLcih5Kkusqrf5NuO6aRHugAIqg7fK/xvaNmW7/OvwaoAlaHv8HbPdAPmbPQREU7H8MvxPQAV2PfxXUgBWiJrcnOREU7H8O5wtwCa48/g37O6AVomZQT4aJoGD/I3CLGnfgfkAt55xuGv17kt+Yfj2p07+DcbseTiW1nONsM/39elKnPzcy/0HHENSTYSJIj3/557+pMP3PGD3JiSA9/lmjT1D/cHuSkxWwqvbTX3H7ZwP8dWYLbIOcAjuucdzuw0wJlEFFgepwVaXZBwegrkAjAV87uNxpBIwyGQPjiZjKE3bNHtf6XDWCwt0z41qfq0aQmv+GZN6YRASp+TtzBDdJJOwz699fbwTp6x/OO0rdiXL+a8BywXnHpzvOnMdOjonjfwh64NH8xvaf9HGMw19lzpN3+T/B+xm8mLx3lLqjMuexPP6v4A18AbZMgOA=
+  </data>
+ </layer>
+ <layer name="Bases" width="48" height="32">
+  <data encoding="base64" compression="zlib">
+   eJzt11sNgDAQAMFL/XvkYYAWBZyGJoRemFGwvxsBvG1rEXv7umLele29cD8AAACs5MjHPgt/9sj2u3A//MkDrZgHVQ==
+  </data>
+ </layer>
+ <objectgroup name="Base2" width="48" height="32">
+  <object x="128" y="800" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup name="Base1" width="48" height="32">
+  <object x="864" y="192" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup name="Collision" width="48" height="32">
+  <object x="0" y="0" width="96" height="384"/>
+  <object x="448" y="352" width="128" height="160"/>
+  <object x="928" y="640" width="96" height="384"/>
+  <object x="0" y="896" width="288" height="128"/>
+  <object x="736" y="0" width="288" height="128"/>
+  <object x="832" y="128" width="64" height="64"/>
+  <object x="128" y="832" width="64" height="64"/>
+  <object x="1024" y="0" width="512" height="640"/>
+ </objectgroup>
+</map>

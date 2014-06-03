@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="48" height="32" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="trees" tilewidth="32" tileheight="32">
+  <image source="plant repack_2.png" width="416" height="416"/>
+ </tileset>
+ <tileset firstgid="170" name="terrain_3" tilewidth="32" tileheight="32">
+  <image source="terrain_3.png" width="1024" height="1024"/>
+ </tileset>
+ <tileset firstgid="1194" name="Tiny32-Complete-Spritesheet_0" tilewidth="32" tileheight="32">
+  <image source="Tiny32-Complete-Spritesheet_0.png" width="512" height="512"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="48" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztlzEKgDAMRbWCgzp6JkeP4U2dHLySCBZjwGBqCQ384REQlJdvLHGrq2q76MKzfmUPN3PzjyHo4O4cqZflxf+8pvWO9+T2l3jzlxw5ufLXMpEq+WueaeXP35U3/5OW4NFfyp/OtUd/7/mn+FufP5T+qiNzKdVfOn/WRH/r+aE9UP/U/EuZ/+hBq0d/7/l/2YNy7J8pe1tJ/vFb/NMH99fMS2n5W/+/AAAAAAAAYMkBwi3lEQ==
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="48" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztVjtOw0AQtRM2SLFFE1Lw7RBtioDEtyOcgyZFGtNwhUg5Sg7AGVLBEbgHXzEvmcHjxUHZJUYR2ic97cfO5u34zc4mtWiKhFuNxHo2iGetobahuE585HeeiS/EV2JmouiGnk1K1hb89MwFovHYFMcCmQcOSFOf94L2kPvYwxb1t4k7rFvvZx769eVoR/uwFkX3zA2T9zEv8S/TD+1jev+E+qfEs3imS4/L1gWGv9D/RGsksRuviC1ij9gmXsf5ejqW0LUZL04fpDV3/fhOLf4/6B+zt/ANoLnLY/jHRb9PLvjoNxz/Bscfusvy99ZUH3/AVb/tf9GO72Dnr4v+zMzXuMz4i36h6Eer8xWoOv6++dtTfKN13okfvKbkcNfRP761wFW/7Ft+u0vcI+6zDjkPM0f9XQ//JB7+Aaa+49+eEy+IlyqOUndXMX91bcZ4ZPIzCDr0GbSq/vn6Bmos+vUZtIrxT2vf9UP7iP2uz6Cq9WsvDNgbA8srMi9oWv7RgI6OKd4jtC90TqC+Lev+qaFrwlQj5yrmm3Zf+V/0A8MF9Nv3U5+9FHKRdbnWtHZ9pr/teF/rWPXap/7ae0mt/QByVuo58RVwVC+2mfIFWpzrd+pOJ5hY9boKLwUE/CXS4OGAgICAgIB/j08FhG03
+  </data>
+ </layer>
+ <layer name="Tile Layer 3" width="48" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztlrlOwzAYgN0jIAFtOWYKE5V6TByvgARIwA5IjNAn4B45R86RU+IBeJHyCDABG7DzWW3U1E1SN4GUwZ/0SXHSuL8d+/cfE0LERZVU7SJrNStJYBJls0vUebSEFl797uAu7ul100AaM452hj6fks2muN/P8wEcxCGfPudxARc1+z3i+TGeBIh/EqdEfe4lG8p82u1hzOIIjvr0uYTLuKLcv7Lc2xd4Kdv6YQcijwUs4hvjfcePeHVu01Z1LiVruI5lzX7v8B4ffj9kT3rYDL3Yl3B/vhqLJg7nummHPHEXsIjdEcXqRiUZ7L0Z4p7FOcx1MP6g81/hvTKxP8eb43fLPzpEteZUppX/9co//4VWa67d/BM1QdfcX5DXPPvdUMfx3YFxedU0bmziFm5jyTHusHGHqX90axrJPh7goWice/X8lbSTg8LUP7o1jeQUz/C81vbbx2oOGsOcx2/D1D/OmqbkEpNznq/xBm9F6z1s5yA7p4/jhMdv7fonaP53xiKvXxjDa8Bz2Q+/bxAGe87tcXzS/qrdk/lJ7lV1jG7XrXB+g06dtQaDwWAwGAwGQxh+ABqrQpY=
+  </data>
+ </layer>
+ <objectgroup name="Collision" width="48" height="32">
+  <object x="416" y="0" width="352" height="288"/>
+  <object x="544" y="320" width="96" height="256"/>
+  <object x="672" y="288" width="96" height="224"/>
+  <object x="768" y="448" width="160" height="64"/>
+  <object x="768" y="0" width="160" height="96"/>
+  <object x="960" y="0" width="192" height="96"/>
+  <object x="1120" y="96" width="32" height="480"/>
+  <object x="992" y="448" width="128" height="128"/>
+  <object x="640" y="544" width="352" height="32"/>
+  <object x="0" y="0" width="416" height="64"/>
+  <object x="256" y="64" width="160" height="32"/>
+  <object x="222" y="65" height="30"/>
+  <object x="0" y="64" width="224" height="32"/>
+  <object x="416" y="288" width="96" height="224"/>
+  <object x="256" y="448" width="158" height="63"/>
+  <object x="0" y="96" width="32" height="480"/>
+  <object x="32" y="448" width="160" height="128"/>
+  <object x="192" y="544" width="352" height="32"/>
+  <object x="32" y="384" width="64" height="64"/>
+  <object x="96" y="416" width="32" height="32"/>
+  <object x="352" y="384" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup name="Start" width="48" height="32">
+  <object x="224" y="96" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup name="End" width="48" height="32">
+  <object x="928" y="96" width="32" height="32"/>
+ </objectgroup>
+</map>

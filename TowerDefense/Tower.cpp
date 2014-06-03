@@ -45,8 +45,8 @@ void Tower::ChangeParameters(int lvl)
 
 		tower_sprite.setTexture(*tower_tex);
 		radius = 256;
-		attack_speed = 0.5f;
-		damage = 10;
+		attack_speed = 0.9f;
+		damage = 20;
 		gold_cost = Networking::TowerStruct::GetGoldCost(lvl);
 	}
 	if (lvl == 3)
@@ -57,8 +57,8 @@ void Tower::ChangeParameters(int lvl)
 
 		tower_sprite.setTexture(*tower_tex);
 		radius = 128;
-		attack_speed = 1.0f;
-		damage = 15;
+		attack_speed = 0.8f;
+		damage = 40;
 		gold_cost = Networking::TowerStruct::GetGoldCost(lvl);
 	}
 	if (lvl == 4)
@@ -69,9 +69,9 @@ void Tower::ChangeParameters(int lvl)
 
 		tower_sprite.setTexture(*tower_tex);
 		radius = 128;
-		attack_speed = 1.0f;
+		attack_speed = 0.5f;
 		
-		damage = 15;
+		damage = 45;
 		gold_cost = Networking::TowerStruct::GetGoldCost(lvl);
 	}
 	if (lvl == 5)
@@ -81,9 +81,9 @@ void Tower::ChangeParameters(int lvl)
 		}
 
 		tower_sprite.setTexture(*tower_tex);
-		radius = 128;
+		radius = 256;
 		attack_speed = 1.0f;
-		damage = 15;
+		damage = 100;
 		gold_cost = Networking::TowerStruct::GetGoldCost(lvl);
 	}
 	

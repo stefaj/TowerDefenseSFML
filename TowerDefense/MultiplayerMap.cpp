@@ -13,6 +13,8 @@ MultiplayerMap::MultiplayerMap(sf::RenderWindow *rw, std::string mapname) : Map(
 
 	passiveIncomeCD = 0;
 
+	updates = 0;
+
 }
 
 void MultiplayerMap::LoadContent()
@@ -101,7 +103,11 @@ void MultiplayerMap::OnAddEnemy(EnemyStruct e)
 void MultiplayerMap::OnNewEnemyReceived(EnemyStruct e)
 {
 	if (remotePlayer->GetID() == e.owner_)
+	{
+		remotePlayer->RemoveGold(EnemyStruct::GetGoldCost(e.type_));
 		remotePlayer->AddPassiveIncome(EnemyStruct::GetGoldCost(e.type_) / 5);
+	}
+	
 
 	Game_Entities::Enemy en(e.x, e.y, e.UID, e.owner_);
 
@@ -142,6 +148,24 @@ void MultiplayerMap::OnNewEnemyReceived(EnemyStruct e)
 
 void MultiplayerMap::update(float elapsed_seconds)
 {
+	if (updates++ % 30 == 0)
+	{
+		SendPlayerSync();
+
+		for (int i = 0; i < enemies.size(); i++)
+		{
+			Enemy *en = enemies[i];
+
+			UpdateEnemyStruct ues;
+			ues.health = en->GetHealth();
+			ues.UID = en->GetUID();
+			ues.x = en->GetPos().x;
+			ues.y = en->GetPos().y;
+			if (peerConnection)
+				peerConnection->Send(ues);
+		}
+	}
+
 	
 	if (localPlayer->GetLives() <= 0)
 	{
@@ -160,7 +184,7 @@ void MultiplayerMap::update(float elapsed_seconds)
 	{
 		localPlayer->AddGold(localPlayer->GetPassiveIncome());
 		remotePlayer->AddGold(remotePlayer->GetPassiveIncome());
-		SendPlayerSync();
+		//SendPlayerSync();
 		passiveIncomeCD = 0;
 		on_creep_killed(0);
 	}

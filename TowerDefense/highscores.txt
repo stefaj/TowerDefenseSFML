@@ -1,6 +1,8 @@
 Stefan,60
+Gamer,58
 Johny,50
 Jakes,45
+Jon,32
 Nigga,1
 Vernon,0
 LJ,0

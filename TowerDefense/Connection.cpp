@@ -75,7 +75,7 @@ void Connection::Send(PlayerSyncStruct s)
 
 	packet << magic_num << packet_type << s.p1_lives << s.p2_lives << s.p1_kills << s.p2_kills << s.p1_gold << s.p2_gold << s.p1_passiveGold << s.p2_passiveGold;
 
-	std::cout << magic_num << packet_type << s.p1_lives << s.p2_lives << s.p1_kills << s.p2_kills << s.p1_gold << s.p2_gold << s.p1_passiveGold << s.p2_passiveGold;
+	//std::cout << magic_num << packet_type << s.p1_lives << s.p2_lives << s.p1_kills << s.p2_kills << s.p1_gold << s.p2_gold << s.p1_passiveGold << s.p2_passiveGold;
 
 	sf::Socket::Status status = sock->send(packet);
 }

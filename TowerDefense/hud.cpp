@@ -340,25 +340,6 @@ void HUD::update(sf::RenderWindow *rw)
 		active_tower_sprite.setTexture(t5_tex);
 	}
 
-	Tower *selected_Tower = map->GetTower(mouseVecf);
-	if (selected_Tower && input.is_left_mb_clicked())
-	{
-		float r = selected_Tower->GetRadius();
-		sf::Vector2f pos = selected_Tower->GetCenteredPosition();
-
-		towerRadiusShape.setPosition(pos);		
-		towerRadiusShape.setRadius(1);
-		
-		current_state = TOWER_MENU;		
-	}
-	if (input.is_right_mb_released())
-		current_state = NONE;
-
-	if (current_state == TOWER_MENU && selected_Tower)
-	{
-		tower_radius_dream_size = selected_Tower->GetRadius();	
-
-	}
 
 	if (current_state == NONE && input.is_left_mb_pressed() && !tower_box.getGlobalBounds().intersects(mouseRect))
 	{
@@ -427,6 +408,26 @@ void HUD::update(sf::RenderWindow *rw)
 		{
 			//Play insufficient gold sound
 		}
+	}
+
+	Tower *selected_Tower = map->GetTower(mouseVecf);
+	if (selected_Tower && input.is_left_mb_clicked())
+	{
+		float r = selected_Tower->GetRadius();
+		sf::Vector2f pos = selected_Tower->GetCenteredPosition();
+
+		towerRadiusShape.setPosition(pos);
+		towerRadiusShape.setRadius(1);
+
+		current_state = TOWER_MENU;
+	}
+	if (input.is_right_mb_released())
+		current_state = NONE;
+
+	if (current_state == TOWER_MENU && selected_Tower)
+	{
+		tower_radius_dream_size = selected_Tower->GetRadius();
+
 	}
 
 	float curRad = towerRadiusShape.getRadius();
@@ -540,6 +541,10 @@ void HUD::OnCreepKilled(int n)
 	std::ostringstream StrP3;
 	StrP3 << "Income: " << localPlayer->GetPassiveIncome();
 	passiveGold->SetText(StrP3.str());
+
+	std::ostringstream StrP4;
+	StrP4 << "Kills: " << localPlayer->GetCreepsKilled();
+	killsLabel->SetText(StrP4.str());
 }
 
 void HUD::OnTowerAdded(Tower* tower)

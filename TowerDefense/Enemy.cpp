@@ -69,7 +69,7 @@ void Enemy::LoadContent(sf::String fileName)
 	anim_right->SetFrameTime(anim_speed);
 
 	sprite.PlayAnimation(anim_up);
-	if (frame_width >= 40)
+	if (frame_width >= 40 || frame_height >= 48)
 		sprite.SetScale(32 / 50.0f);
 
 }

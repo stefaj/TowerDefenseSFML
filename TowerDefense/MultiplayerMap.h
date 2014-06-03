@@ -44,7 +44,9 @@ namespace World
 		void UpdateEnemyPathing();
 
 		float passiveIncomeCD;
-		const float SECONDS_PER_PASSIVE_INCOME = 60;
+		const float SECONDS_PER_PASSIVE_INCOME = 30;
+
+		int updates;
 
 	};
 }
